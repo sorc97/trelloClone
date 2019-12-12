@@ -1,8 +1,7 @@
-@import 'fonts.scss';
-$prime-color: rgb(255, 136, 156);
+$prime-color: rgb(255, 126, 143);
+$main-font: 'Arial', sans-serif;
 
 body {
+  font-family: $main-font;
   background-color: $prime-color;
-  display: flex;
-  justify-content: center;
 }
