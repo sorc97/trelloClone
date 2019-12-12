@@ -1,0 +1,8 @@
+@import 'fonts.scss';
+$prime-color: rgb(255, 136, 156);
+
+body {
+  background-color: $prime-color;
+  display: flex;
+  justify-content: center;
+}
