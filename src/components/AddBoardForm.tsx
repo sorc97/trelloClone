@@ -8,12 +8,13 @@ interface AddBoardFormProps {
   onNewBoard: (title: string) => void
 }
 
-const AddBoardForm: React.FC<AddBoardFormProps> = ({onNewBoard}) => {
+const AddBoardForm: React.FC <AddBoardFormProps> = ({onNewBoard}) => {
   let boardNameRef: React.RefObject <HTMLInputElement> = React.createRef();
 
   const submit = (e: React.FormEvent): void => {
     e.preventDefault();
     console.log(boardNameRef.current.value);
+    console.log(e.target);
 
     onNewBoard(boardNameRef.current.value);
     
@@ -26,7 +27,8 @@ const AddBoardForm: React.FC<AddBoardFormProps> = ({onNewBoard}) => {
       <input 
         type='text' 
         placeholder='Enter the board name'
-        ref={boardNameRef}/>
+        ref={boardNameRef} 
+        required/>
         <input type='submit' value='Create'/>
     </form>
   )

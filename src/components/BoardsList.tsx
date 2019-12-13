@@ -1,5 +1,6 @@
 import React from 'react'
 import { IBoard } from '../interfaces'
+import { Link } from 'react-router-dom'
 
 type BoardsListProps = {
   boards: Array<IBoard>
@@ -10,7 +11,7 @@ const BoardsList: React.FC<BoardsListProps> = ({boards}) =>
     {
       boards.map((item: IBoard) => 
         <li className="boards-item" key={item.id}>
-          <a href="#">{item.title}</a>
+          <Link to={`/todos/${item.id}`}>{item.title}</Link>
         </li>
       )
     }
