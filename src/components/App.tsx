@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { IBoard } from '../interfaces'
+import { IBoard, ITodo } from '../interfaces'
 import { v4 } from 'uuid';
 import BoardsPage from './BoardsPage';
 import TodosPage from './TodosPage';
 import { Route, Switch, RouteComponentProps } from 'react-router-dom';
 
-interface AppState {
+// State type
+type AppState = {
   boardsList: Array<IBoard>
 }
-
+// Router params
 interface MatchParams {
   id: string
 }
@@ -16,36 +17,34 @@ interface MatchParams {
 interface MatchProps extends RouteComponentProps<MatchParams> {
 }
 
-/* const initialState: AppState = {
-  boardsList: []
-} */
-
-const getInitialState = (): AppState => {
+// Initial state func
+/* const getInitialState = (): AppState => {
   return (localStorage['trello-store']) ?
     JSON.parse(localStorage['trello-store']) : 
     {
       boardsList: []
     }
-}
+} */
+
+// Initial state
+// const initialState = getInitialState();
+const initialState: AppState = {
+  boardsList: []
+};
 
 class App extends Component <{}, AppState> {
-  readonly state = getInitialState();
+  readonly state = initialState;
+  
+  componentDidMount() {
+    console.log("APP DID MOUNT");
+  }
 
   addNewBoard = (title: string): void => {
     const newBoard: IBoard = {
       title,
       id: v4(),
       date: new Date(),
-      todosList: [
-        {
-          title: "In proccess",
-          id: v4(),
-          tasks: [
-            {title: "Initial Webpack Config", id: v4(), isDone: true},
-            {title: "Components", id: v4(), isDone: false}
-          ]
-        }
-      ]
+      todosList: []
     }
 
     console.log(newBoard);
@@ -58,7 +57,42 @@ class App extends Component <{}, AppState> {
     this.setState({boardsList}, this.setLocalStorage);
   }
 
-  findById = (id: string): IBoard => {
+  addNewTodo = (title: string, id: string): void => {
+    let boardsList = this.state.boardsList.map(
+      board => (board.id !== id) ? 
+        board:
+        {
+          ...board,
+          todosList: [
+            ...board.todosList,
+            {
+              title,
+              id: v4(),
+              tasks: []
+            }
+          ]
+        }
+    )
+    
+    // this.setState({boardsList}, this.setLocalStorage);
+  }
+
+  addNewTask = (boardId: string, title: string, id: string): void => {
+    const boardsList = this.state.boardsList.map(
+      board => (board.id !== boardId) ?
+        board:
+        {
+          ...board,
+          todosList: [
+            ...board.todosList,
+            
+          ]
+        } 
+    )
+    // this.setState({boardsList}, this.setLocalStorage);
+  }
+
+  findBoardById = (id: string): IBoard => {
     const { boardsList } = this.state;
     const elem = boardsList.filter(item => item.id === id)[0];
     return elem;
@@ -77,7 +111,23 @@ class App extends Component <{}, AppState> {
           () => <BoardsPage onNewBoard={this.addNewBoard} boardsList={boardsList}/>
         }/>
         <Route path='/todos/:id' component={
-          ({match}: MatchProps) => <TodosPage title={this.findById(match.params.id).title}/>
+          ({match}: MatchProps) => {
+            const { title, id } = this.findBoardById(match.params.id);
+            // const board = this.findBoardById(match.params.id);
+
+            return(
+              <TodosPage 
+                title={title}
+                boardId={id}
+              />
+              /* <TodosPage 
+                title={title}
+                todosList={todosList}
+                addNewTodo={(title: string) => this.addNewTodo(title, boardId)}
+                addNewTask={(title: string, id: string) => this.addNewTask(boardId, title, id)}
+              /> */
+            )
+          }
         } />
       </Switch>
     )

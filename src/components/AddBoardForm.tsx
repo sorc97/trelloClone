@@ -32,7 +32,7 @@ const AddBoardForm: React.FC <AddBoardFormProps> = ({onNewBoard}) => {
         <input type='submit' value='Create'/>
     </form>
   )
-} 
+}
 
 
 

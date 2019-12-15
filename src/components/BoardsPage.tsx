@@ -1,5 +1,6 @@
 import React from 'react';
-import AddBoardForm from './AddBoardForm';
+// import AddBoardForm from './AddBoardForm';
+import AddForm from './AddForm'
 import BoardsList from './BoardsList';
 import { IBoard } from '../interfaces';
 
@@ -10,9 +11,15 @@ interface BoardsPageProps {
 
 const BoardsPage: React.FC<BoardsPageProps> = ({ onNewBoard, boardsList }) => 
   <>
-    <AddBoardForm onNewBoard={onNewBoard}/>
+    <AddForm 
+      handleAdding={onNewBoard}
+      placeholder="Enter the name of board"
+      button="Create"
+    />
     <BoardsList boards={boardsList}/>
   </>
+
+
 
 /* 
 class BoardsPage extends Component <{}, BoardsState> {

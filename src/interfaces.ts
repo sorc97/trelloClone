@@ -9,6 +9,7 @@ export interface IBoard extends InitialFields {
 }
 
 export interface ITodo extends InitialFields {
+  board: string,
   tasks?: Array<ITask>
 }
 
