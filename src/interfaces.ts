@@ -5,12 +5,12 @@ interface InitialFields {
 
 export interface IBoard extends InitialFields {
   date: Date,
-  todosList?: Array<ITodo>
+  // todosList?: Array<ITodo>
 }
 
 export interface ITodo extends InitialFields {
-  board: string,
-  tasks?: Array<ITask>
+  boardId: string,
+  tasks: Array<ITask>
 }
 
 export interface ITask extends InitialFields {

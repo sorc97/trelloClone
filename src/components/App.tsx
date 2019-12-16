@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { IBoard, ITodo } from '../interfaces'
+import { IBoard, ITodo, ITask } from '../interfaces'
 import { v4 } from 'uuid';
 import BoardsPage from './BoardsPage';
 import TodosPage from './TodosPage';
@@ -7,7 +7,8 @@ import { Route, Switch, RouteComponentProps } from 'react-router-dom';
 
 // State type
 type AppState = {
-  boardsList: Array<IBoard>
+  boardsList: Array<IBoard>,
+  todos: Array<ITodo>
 }
 // Router params
 interface MatchParams {
@@ -18,19 +19,18 @@ interface MatchProps extends RouteComponentProps<MatchParams> {
 }
 
 // Initial state func
-/* const getInitialState = (): AppState => {
+const getInitialState = (): AppState => {
   return (localStorage['trello-store']) ?
     JSON.parse(localStorage['trello-store']) : 
     {
-      boardsList: []
+      boardsList: [],
+      todo: []
     }
-} */
+}
 
 // Initial state
 // const initialState = getInitialState();
-const initialState: AppState = {
-  boardsList: []
-};
+const initialState: AppState = getInitialState();
 
 class App extends Component <{}, AppState> {
   readonly state = initialState;
@@ -43,8 +43,7 @@ class App extends Component <{}, AppState> {
     const newBoard: IBoard = {
       title,
       id: v4(),
-      date: new Date(),
-      todosList: []
+      date: new Date()
     }
 
     console.log(newBoard);
@@ -57,45 +56,49 @@ class App extends Component <{}, AppState> {
     this.setState({boardsList}, this.setLocalStorage);
   }
 
-  addNewTodo = (title: string, id: string): void => {
-    let boardsList = this.state.boardsList.map(
-      board => (board.id !== id) ? 
-        board:
+  addNewTodo = (title: string, boardId: string): void => {
+    const todos = [
+      {
+        title,
+        id: v4(),
+        tasks: [],
+        boardId
+      },
+      ...this.state.todos
+    ]
+    
+    this.setState({todos}, this.setLocalStorage);
+  }
+
+  addNewTask = (title: string, todoId: string): void => {
+    let todos: Array<ITodo> = this.state.todos.map(
+      todo => (todo.id !== todoId) ?
+        todo :
         {
-          ...board,
-          todosList: [
-            ...board.todosList,
+          ...todo,
+          tasks: [
+            ...todo.tasks,
             {
               title,
               id: v4(),
-              tasks: []
+              isDone: false
             }
           ]
         }
     )
-    
-    // this.setState({boardsList}, this.setLocalStorage);
-  }
-
-  addNewTask = (boardId: string, title: string, id: string): void => {
-    const boardsList = this.state.boardsList.map(
-      board => (board.id !== boardId) ?
-        board:
-        {
-          ...board,
-          todosList: [
-            ...board.todosList,
-            
-          ]
-        } 
-    )
-    // this.setState({boardsList}, this.setLocalStorage);
+    console.log(todos);
+    this.setState({todos}, this.setLocalStorage);
   }
 
   findBoardById = (id: string): IBoard => {
     const { boardsList } = this.state;
     const elem = boardsList.filter(item => item.id === id)[0];
     return elem;
+  }
+
+  findTodosById = (id: string): Array<ITodo> => {
+    const { todos } = this.state;
+    return todos.filter(todo => todo.boardId === id);
   }
 
   setLocalStorage = (): void => {
@@ -113,19 +116,15 @@ class App extends Component <{}, AppState> {
         <Route path='/todos/:id' component={
           ({match}: MatchProps) => {
             const { title, id } = this.findBoardById(match.params.id);
-            // const board = this.findBoardById(match.params.id);
+            const currentTodos = this.findTodosById(match.params.id);
 
             return(
               <TodosPage 
                 title={title}
-                boardId={id}
+                todosList={currentTodos}
+                addNewTodo={(title) => this.addNewTodo(title, id)}
+                addNewTask={(this.addNewTask)}
               />
-              /* <TodosPage 
-                title={title}
-                todosList={todosList}
-                addNewTodo={(title: string) => this.addNewTodo(title, boardId)}
-                addNewTask={(title: string, id: string) => this.addNewTask(boardId, title, id)}
-              /> */
             )
           }
         } />

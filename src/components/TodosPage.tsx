@@ -4,18 +4,19 @@ import AddForm from './AddForm'
 import { ITodo } from '../interfaces';
 import { v4 } from 'uuid';
 
-/* interface TodosPageProps {
+interface TodosPageProps {
   title: string,
   todosList: Array<ITodo>,
   addNewTodo: (title: string) => void,
   addNewTask: (title: string, id: string) => void
-} */
-interface TodosPageProps {
-  title: string,
-  boardId: string
 }
 
-type TodosPageState = {
+/* interface TodosPageProps {
+  title: string,
+  boardId: string
+} */
+
+/* type TodosPageState = {
   todos: Array<ITodo>
 }
 
@@ -94,9 +95,9 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
       </>
     )
   }
-}
+} */
 
-/* const TodosPage: React.FC <TodosPageProps> = ({ 
+const TodosPage: React.FC <TodosPageProps> = ({ 
   title, todosList, addNewTodo, addNewTask
 }) => {
 
@@ -121,6 +122,6 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
     </ul>
     </>
   )
-} */
+}
 
 export default TodosPage;
