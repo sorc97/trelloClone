@@ -1,14 +1,63 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import TodosList from './TodosList'
 import AddForm from './AddForm'
 import { ITodo } from '../interfaces';
 import { v4 } from 'uuid';
+import { Context } from '../context';
 
 interface TodosPageProps {
-  title: string,
+  boardTitle: string,
   todosList: Array<ITodo>,
-  addNewTodo: (title: string) => void,
-  addNewTask: (title: string, id: string) => void
+  boardId: string
+}
+
+const TodosPage: React.FC <TodosPageProps> = ({ 
+  boardTitle, todosList, boardId
+}) => {
+
+  const { dispatch } = useContext(Context);
+
+  const addNewTodo = (title: string) => {
+    dispatch({
+      type: 'addTodo',
+      payload: {
+        title,
+        boardId
+      }
+    })
+  }
+
+  const addNewTask = (title: string, todoId: string) => {
+    dispatch({
+      type: 'addTask',
+      payload: {
+        title,
+        todoId
+      }
+    })
+  }
+
+  return(
+    <>
+    <h1>{boardTitle}</h1>
+    <AddForm
+      placeholder="Add new Todo"
+      handleAdding={addNewTodo}
+    />
+    <ul>
+      {
+        todosList.map(todo => 
+          <li key={todo.id}>
+            <TodosList 
+              {...todo}
+              onNewTask={(title: string) => addNewTask(title, todo.id)}
+            />
+          </li>
+        )
+      }
+    </ul>
+    </>
+  )
 }
 
 /* interface TodosPageProps {
@@ -96,32 +145,5 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
     )
   }
 } */
-
-const TodosPage: React.FC <TodosPageProps> = ({ 
-  title, todosList, addNewTodo, addNewTask
-}) => {
-
-  return(
-    <>
-    <h1>{title}</h1>
-    <AddForm
-      placeholder="Add new Todo"
-      handleAdding={addNewTodo}
-    />
-    <ul>
-      {
-        todosList.map(todo => 
-          <li key={todo.id}>
-            <TodosList 
-              {...todo}
-              onNewTask={(title: string) => addNewTask(title, todo.id)}
-            />
-          </li>
-        )
-      }
-    </ul>
-    </>
-  )
-}
 
 export default TodosPage;

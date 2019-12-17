@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
-import { IBoard, ITodo, ITask } from '../interfaces'
+import React, { useEffect, useReducer } from 'react';
+import reducer from '../reducer'
+import { IBoard, ITodo, ITask } from '../interfaces';
 import { v4 } from 'uuid';
 import BoardsPage from './BoardsPage';
 import TodosPage from './TodosPage';
 import { Route, Switch, RouteComponentProps } from 'react-router-dom';
+import { Context } from '../context'
 
 // State type
 type AppState = {
@@ -29,87 +31,52 @@ const getInitialState = (): AppState => {
 }
 
 // Initial state
-// const initialState = getInitialState();
 const initialState: AppState = getInitialState();
 
-class App extends Component <{}, AppState> {
-  readonly state = initialState;
-  
-  componentDidMount() {
-    console.log("APP DID MOUNT");
+const App: React.FunctionComponent = () => {
+  const [state, dispatch] = useReducer(reducer, initialState); 
+  const { boardsList, todos } = state;
+
+  useEffect(() => {
+    localStorage.setItem('trello-store', JSON.stringify(state));
+  }, [state])
+
+  console.log(boardsList);
+  console.log(todos);
+
+  const findBoardById = (id: string): IBoard => {
+    return boardsList.filter(board => board.id === id)[0]
   }
 
-  addNewBoard = (title: string): void => {
-    const newBoard: IBoard = {
-      title,
-      id: v4(),
-      date: new Date()
-    }
-
-    console.log(newBoard);
-
-    let boardsList = [
-      newBoard,
-      ...this.state.boardsList
-    ]
-
-    this.setState({boardsList}, this.setLocalStorage);
+  const currentTodos = (id: string): Array<ITodo> => {
+    return todos.filter(todo => todo.boardId === id)
   }
 
-  addNewTodo = (title: string, boardId: string): void => {
-    const todos = [
-      {
-        title,
-        id: v4(),
-        tasks: [],
-        boardId
-      },
-      ...this.state.todos
-    ]
-    
-    this.setState({todos}, this.setLocalStorage);
-  }
-
-  addNewTask = (title: string, todoId: string): void => {
-    let todos: Array<ITodo> = this.state.todos.map(
-      todo => (todo.id !== todoId) ?
-        todo :
-        {
-          ...todo,
-          tasks: [
-            ...todo.tasks,
-            {
-              title,
-              id: v4(),
-              isDone: false
-            }
-          ]
-        }
-    )
-    console.log(todos);
-    this.setState({todos}, this.setLocalStorage);
-  }
-
-  findBoardById = (id: string): IBoard => {
-    const { boardsList } = this.state;
-    const elem = boardsList.filter(item => item.id === id)[0];
-    return elem;
-  }
-
-  findTodosById = (id: string): Array<ITodo> => {
-    const { todos } = this.state;
-    return todos.filter(todo => todo.boardId === id);
-  }
-
-  setLocalStorage = (): void => {
-    localStorage['trello-store'] = JSON.stringify(this.state);
-  }
-
-  render() {
-    const { boardsList } = this.state;
-    console.log(this.state);
-    return(
+  return (
+    <Context.Provider value={{
+      dispatch
+    }}>
       <Switch>
+        <Route exact path='/' component={
+          () => <BoardsPage boardsList={boardsList}/>
+        }/>
+        <Route path='/todos/:id' component={
+          ({match}: MatchProps) => {
+            const { title } = findBoardById(match.params.id);
+            const boardsTodos = currentTodos(match.params.id);
+
+            return(
+              <TodosPage 
+                boardTitle={title}
+                todosList={boardsTodos}
+                boardId={match.params.id}
+              />
+            )
+          }
+        }/>
+      </Switch>
+    </Context.Provider>
+    /* <Switch>
         <Route exact path='/' component={
           () => <BoardsPage onNewBoard={this.addNewBoard} boardsList={boardsList}/>
         }/>
@@ -128,9 +95,9 @@ class App extends Component <{}, AppState> {
             )
           }
         } />
-      </Switch>
-    )
-  }
-} 
+      </Switch> */
+  )
+}
+
 
 export default App;

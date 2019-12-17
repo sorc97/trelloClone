@@ -1,3 +1,4 @@
+
 interface InitialFields {
   title: string,
   id: string,
@@ -15,6 +16,17 @@ export interface ITodo extends InitialFields {
 
 export interface ITask extends InitialFields {
   isDone: boolean
+}
+
+export interface IAction {
+  type: string,
+  payload: IPayloadData
+}
+
+export interface IPayloadData {
+  title?: string,
+  todoId?: string,
+  boardId?: string
 }
 
 /* 

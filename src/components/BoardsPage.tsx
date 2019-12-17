@@ -1,23 +1,38 @@
-import React from 'react';
+import React, { useContext } from 'react';
 // import AddBoardForm from './AddBoardForm';
 import AddForm from './AddForm'
 import BoardsList from './BoardsList';
 import { IBoard } from '../interfaces';
+import { Context } from '../context'
 
 interface BoardsPageProps {
-  onNewBoard(title: string): void,
+  onNewBoard?(title: string): void,
   boardsList: Array<IBoard>
 }
 
-const BoardsPage: React.FC<BoardsPageProps> = ({ onNewBoard, boardsList }) => 
-  <>
-    <AddForm 
-      handleAdding={onNewBoard}
-      placeholder="Enter the name of board"
-      button="Create"
-    />
-    <BoardsList boards={boardsList}/>
-  </>
+const BoardsPage: React.FC<BoardsPageProps> = ({ boardsList }) => {
+  const { dispatch } = useContext(Context);  
+
+  const onNewBoard = (title: string): void => {
+    dispatch({
+      type: "addBoard",
+      payload: {
+        title
+      }
+    })
+  }
+
+  return (
+    <>
+      <AddForm 
+        handleAdding={onNewBoard}
+        placeholder="Enter the name of board"
+        button="Create"
+      />
+      <BoardsList boards={boardsList}/>
+    </>
+  )
+}
 
 
 
