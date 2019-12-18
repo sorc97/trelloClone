@@ -11,7 +11,7 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   devServer: {
-    port: 8080,
+    port: 3000,
     contentBase: './dist'  //Благодаря этой строчке на дев сервере не нужно указывать в html полный путь до файлов
   },
   module: {

@@ -1,4 +1,4 @@
-/* import { IBoard, ITodo, IAction, AppState } from './interfaces';
+import { IBoard, ITodo, IAction, AppState } from './interfaces';
 import { v4 } from 'uuid'
 
 export default function reducer(state: AppState, action: IAction) {
@@ -16,17 +16,9 @@ export default function reducer(state: AppState, action: IAction) {
       }
     }
 
-    case "addTodo":
+    case "addTodo": 
       return {
-        ...state,
-        activeTodos: [
-          ...state.activeTodos,
-          {
-            title: action.payload.title,
-            id: v4(),
-            tasks: []
-          }
-        ]
+        
       }
 
     case "addTask": {
@@ -52,21 +44,25 @@ export default function reducer(state: AppState, action: IAction) {
 
     case "setActiveTodos": 
     console.log(action.payload.activeTodos);
+      const currentBoard = state.boardsList.filter(board => board.id === action.payload.boardId)[0];
+
       return {
         ...state,
-        activeTodos: [...action.payload.activeTodos]
+        activeTodos: [...currentBoard.todos]
       }
 
     case "storeTodos": {
-      const board: IBoard = state.boardsList.filter(board => board.id === action.payload.boardId)[0];
-      board.todos = [...action.payload.todosList];
-      
+      const boardsList = state.boardsList.map(board => {
+        if(board.id === action.payload.boardId) {
+          board.todos = [...action.payload.todosList];
+        }
+        
+        return board
+      })
+
       return {
         ...state,
-        boardsList: [
-          ...state.boardsList,
-          board
-        ]
+        boardsList
       }
     }
     
@@ -74,4 +70,3 @@ export default function reducer(state: AppState, action: IAction) {
       return state;
   }
 }
- */

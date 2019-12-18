@@ -6,10 +6,10 @@ interface InitialFields {
 
 export interface IBoard extends InitialFields {
   date: Date,
-  todos?: Array<ITodo>
-  // todos: {
-  //   [name: string]: ITodo
-  // }
+  // todos?: Array<ITodo>
+  todos: {
+    [name: string]: ITodo
+  }
   // todosList?: Array<ITodo>
 }
 

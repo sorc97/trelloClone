@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from 'react';
-// import reducer from '../reducer'
+import reducer from '../reducer'
 import { IBoard, ITodo, ITask, AppState } from '../interfaces';
 import { v4 } from 'uuid';
 import BoardsPage from './BoardsPage';
@@ -26,11 +26,12 @@ const getInitialState = (): AppState => {
 
 // Initial state
 // const initialState: AppState = getInitialState();
-const initialState: AppState = {boardsList: []};
+const initialState: AppState = {
+  boardsList: []
+};
 
 const App: React.FunctionComponent = () => {
-  // const [state, dispatch] = useReducer(reducer, initialState); 
-  const [state, setState] = useState<AppState>(initialState);
+  const [state, dispatch] = useReducer(reducer, initialState); 
 
   /* useEffect(() => {
     localStorage.setItem('trello-store', JSON.stringify(state));
@@ -44,51 +45,29 @@ const App: React.FunctionComponent = () => {
     return state.boardsList.filter(board => board.id === id)[0]
   }
 
-  const addBoard = (title: string): void => {
-    setState({
-      boardsList: [
-        ...state.boardsList,
-        {
-          title,
-          id: v4(),
-          date: new Date(),
-          todos: []
-        }
-      ]
-    })
-  }   
-
   const storeTodos = (boardId: string, todosList: Array<ITodo>): void => {
     console.log('This is store todos', todosList);
 
-    const boardsList = state.boardsList.map(board => {
-      if(board.id === boardId) {
-        board.todos = [...todosList];
+    dispatch({
+      type: 'storeTodo',
+      payload: {
+        boardId,
+        todosList
       }
-      
-      return board
     })
-    
-    setState({boardsList});
   } 
 
-  /* const currentTodos = (id: string): Array<ITodo> => {
-    return todos.filter(todo => todo.boardId === id)
-  } */
-
   return (
-    /* <Context.Provider value={{
+    <Context.Provider value={{
       dispatch
-    }}> */
+    }}>
       <Switch>
         <Route exact path='/' component={
-          () => <BoardsPage boardsList={state.boardsList} onNewBoard={addBoard}/>
+          () => <BoardsPage boardsList={state.boardsList}/>
         }/>
         <Route path='/todos/:id' component={
           ({match}: MatchProps) => {
             const { title, todos, id } = findBoardById(match.params.id);
-            // const currentBoard = findBoardById(match.params.id);
-            // const boardsTodos = currentTodos(match.params.id);
 
             return(
               <TodosPage 
@@ -101,7 +80,7 @@ const App: React.FunctionComponent = () => {
           }
         }/>
       </Switch>
-    // </Context.Provider>
+    </Context.Provider>
   )
 }
 
