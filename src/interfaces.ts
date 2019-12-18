@@ -6,11 +6,15 @@ interface InitialFields {
 
 export interface IBoard extends InitialFields {
   date: Date,
+  todos?: Array<ITodo>
+  // todos: {
+  //   [name: string]: ITodo
+  // }
   // todosList?: Array<ITodo>
 }
 
 export interface ITodo extends InitialFields {
-  boardId: string,
+  // boardId: string,
   tasks: Array<ITask>
 }
 
@@ -26,8 +30,58 @@ export interface IAction {
 export interface IPayloadData {
   title?: string,
   todoId?: string,
-  boardId?: string
+  boardId?: string,
+  activeTodos?: Array<ITodo>
 }
+
+export type AppState = {
+  boardsList: Array<IBoard>,
+  activeTodos: Array<ITodo>
+}
+
+/* 
+  let boardsList = [
+    {
+      title: "Trello",
+      id: "asd23",
+      todos: {
+        "asdj123": {
+          title: "Todo",
+          id: "asdasd123",
+          tasks: [
+            {
+              title: 'Do something',
+              id: v4(),
+              isDone: false
+            },
+            {
+              title: 'Do something',
+              id: v4(),
+              isDone: false
+            }
+          ]
+        },
+        "asdasdj123d1": {
+          title: "Todo",
+          id: "asdasd123",
+          tasks: [
+            {
+              title: 'Do something',
+              id: v4(),
+              isDone: false
+            },
+            {
+              title: 'Do something',
+              id: v4(),
+              isDone: false
+            }
+          ]
+        }
+      }
+    }
+  ]
+ */
+
 
 /* 
 TodosList = [
