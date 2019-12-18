@@ -10,17 +10,17 @@ interface BoardsPageProps {
   boardsList: Array<IBoard>
 }
 
-const BoardsPage: React.FC<BoardsPageProps> = ({ boardsList }) => {
-  const { dispatch } = useContext(Context);  
+const BoardsPage: React.FC<BoardsPageProps> = ({ boardsList, onNewBoard }) => {
+  // const { dispatch } = useContext(Context);  
 
-  const onNewBoard = (title: string): void => {
+  /* const onNewBoard = (title: string): void => {
     dispatch({
       type: "addBoard",
       payload: {
         title
       }
     })
-  }
+  } */
 
   return (
     <>

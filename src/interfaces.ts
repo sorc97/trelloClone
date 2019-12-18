@@ -31,12 +31,13 @@ export interface IPayloadData {
   title?: string,
   todoId?: string,
   boardId?: string,
-  activeTodos?: Array<ITodo>
+  activeTodos?: Array<ITodo>,
+  todosList?: Array<ITodo>
 }
 
 export type AppState = {
   boardsList: Array<IBoard>,
-  activeTodos: Array<ITodo>
+  // activeTodos: Array<ITodo>
 }
 
 /* 

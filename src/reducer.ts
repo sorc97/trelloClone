@@ -1,4 +1,4 @@
-import { IBoard, ITodo, IAction, AppState } from './interfaces';
+/* import { IBoard, ITodo, IAction, AppState } from './interfaces';
 import { v4 } from 'uuid'
 
 export default function reducer(state: AppState, action: IAction) {
@@ -59,7 +59,7 @@ export default function reducer(state: AppState, action: IAction) {
 
     case "storeTodos": {
       const board: IBoard = state.boardsList.filter(board => board.id === action.payload.boardId)[0];
-      board.todos = [...action.payload.activeTodos]
+      board.todos = [...action.payload.todosList];
       
       return {
         ...state,
@@ -74,3 +74,4 @@ export default function reducer(state: AppState, action: IAction) {
       return state;
   }
 }
+ */
