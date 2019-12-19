@@ -46,7 +46,6 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
   }
 
   addNewTask = (title: string, todoId: string): void => {
-
     const todos: ITodo[] = this.state.todos.map(todo => {
       if(todo.id === todoId) {
         todo.tasks = [
@@ -63,6 +62,27 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
     
     this.setState({todos});
   }
+
+  removeTask = (id: string, todoId: string): void => {
+    console.log(todoId);
+    const todos: ITodo[] = this.state.todos.map(todo => {
+      if(todo.id === todoId) {
+        todo.tasks = todo.tasks.filter(task => task.id !== id);
+      }
+      
+      return todo;
+    })
+
+    this.setState({todos});
+  }
+
+  addTaskToNewTodo = (id: string, todoId: string): void => {
+
+  }
+
+  /* handleDrop = (id: string, todoId: string): void => {
+
+  } */
 
   render() {
     const { boardTitle } = this.props;

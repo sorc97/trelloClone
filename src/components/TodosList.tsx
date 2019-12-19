@@ -2,7 +2,8 @@ import React from 'react';
 import Task from './Task';
 import AddForm from './AddForm'
 import { ITask, ITodo } from '../interfaces';
-import './stylesheets/TodosList.scss'
+import Droppable from './Dnd/Droppable/Droppable'
+import './stylesheets/TodosList.scss';
 
 type TodosProps = {
   title: string, 
@@ -11,7 +12,7 @@ type TodosProps = {
   onNewTask: (title: string) => void
 }
 
-const TodosList: React.FC <TodosProps> = ({ title, tasks, onNewTask }) => 
+const TodosList: React.FC <TodosProps> = ({ title, tasks, onNewTask, id }) => 
 <li className="todos-item">
   <div className="tasks-header">
     <h2>{title}</h2>
@@ -21,16 +22,18 @@ const TodosList: React.FC <TodosProps> = ({ title, tasks, onNewTask }) =>
       className="tasks-form"
     />
   </div>
-  <ul className="tasks-list">
-    {
-      tasks.map(task => 
-        <Task
-          key={task.id}
-          {...task}
-        />
-      )
-    }
-  </ul>
+  <Droppable id={id} className="droppable-wrapper">
+    <ul className="tasks-list">
+      {
+        tasks.map(task => 
+          <Task
+            key={task.id}
+            {...task}         
+          />
+        )
+      }
+    </ul>
+  </Droppable>
 </li>
 
 export default TodosList;

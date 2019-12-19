@@ -6,21 +6,15 @@
 }
 
 .todos-header {
-  height: 15%;
-  padding: $main-padding;
+  height: 10%;
+  padding: 10px $main-padding;
 }
 
 .todos-list {
   // display: ;
-  height: 85%;
+  height: 90%;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 10px $main-padding;
+  padding: $main-padding;
   white-space: nowrap;
-}
-
-.tasks-list {
-  padding: 10px;
-  height: 85%;
-  overflow-y: auto;
 }
