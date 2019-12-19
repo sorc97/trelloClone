@@ -4,11 +4,12 @@ import React from 'react'
 interface AddFormProps {
   handleAdding: (title: string) => void,
   placeholder: string,
-  button?: string
+  button?: string,
+  className?: string
 }
 
 const AddForm: React.FC <AddFormProps> = ({
-  handleAdding, placeholder, button
+  handleAdding, placeholder, button, className
 }) => {
   let textRef: React.RefObject <HTMLInputElement> = React.createRef();
 
@@ -24,7 +25,7 @@ const AddForm: React.FC <AddFormProps> = ({
   }
 
   return(
-    <form onSubmit={submit}>
+    <form className={className} onSubmit={submit}>
       <input 
         type='text' 
         placeholder={placeholder}

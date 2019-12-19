@@ -4,6 +4,7 @@ import AddForm from './AddForm'
 import { ITodo, IBoard } from '../interfaces';
 import { v4 } from 'uuid';
 import { Context } from '../context';
+import './stylesheets/TodosPage.scss';
 
 interface TodosPageProps {
   boardTitle: string,
@@ -70,29 +71,31 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
     console.log(this.state);
     
     return(
-      <>
-      <h1>{boardTitle}</h1>
-      <AddForm
-        placeholder="Add new Todo"
-        handleAdding={this.addNewTodo}
-      />
-      {
-        (!todos.length) ?
-          <p>No todos</p> :
-          <ul>
-            {
-              todos.map(todo => 
-                <li key={todo.id}>
+      <main className='todos'>
+        <div className="todos-header">
+          <h1>{boardTitle}</h1>
+          <AddForm
+            placeholder="Add new Todo"
+            handleAdding={this.addNewTodo}
+            className="todo-form"
+          />
+        </div>
+        {
+          (!todos.length) ?
+            <p>No todos</p> :
+            <ul className="todos-list">
+              {
+                todos.map(todo => 
                   <TodosList 
                     {...todo}
                     onNewTask={(title: string) => this.addNewTask(title, todo.id)}
+                    key={todo.id}
                   />
-                </li>
-              )
-            }
-          </ul>
-      }
-      </>
+                )
+              }
+            </ul>
+        }
+      </main>
     )
   }
 }

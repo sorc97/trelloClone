@@ -1,0 +1,30 @@
+@import 'vars';
+
+*{
+  box-sizing: border-box;
+}
+
+body, html {
+  position: relative;
+  height: 100%;
+  margin: 0px;
+  font-family: $main-font;
+  background-color: $prime-color;
+  // overflow-x: auto;
+  // overflow-y: hidden;
+}
+
+#react-container {
+  // min-height: 100vh;
+  height: 100%;
+}
+
+ul {
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0px;
+}

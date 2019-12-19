@@ -1,0 +1,35 @@
+@import 'vars';
+
+
+.todos-item {
+  width: 250px;
+  display: inline-block;
+  margin-right: 20px;
+  height: 100%;
+  // background: floralwhite;
+  background-color: $boards-color;
+  vertical-align: top;
+  overflow-y: hidden;
+  border-radius: 5px;
+
+  &:last-child {
+    margin-right: 0px;
+  }
+}
+
+.tasks {
+  &-header {
+    height: 15%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &-form > input {
+    border: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    width: 100%;
+  }
+}

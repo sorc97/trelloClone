@@ -3,7 +3,8 @@ import React, { useContext } from 'react';
 import AddForm from './AddForm'
 import BoardsList from './BoardsList';
 import { IBoard } from '../interfaces';
-import { Context } from '../context'
+import { Context } from '../context';
+import './stylesheets/BoardsPage.scss';
 
 interface BoardsPageProps {
   onNewBoard?(title: string): void,
@@ -23,14 +24,15 @@ const BoardsPage: React.FC<BoardsPageProps> = ({ boardsList, onNewBoard }) => {
   } */
 
   return (
-    <>
+    <main className='boards'>
       <AddForm 
         handleAdding={onNewBoard}
         placeholder="Enter the name of board"
-        button="Create"
+        button="+"
+        className="boards-form"
       />
       <BoardsList boards={boardsList}/>
-    </>
+    </main>
   )
 }
 

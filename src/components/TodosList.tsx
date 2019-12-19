@@ -2,6 +2,7 @@ import React from 'react';
 import Task from './Task';
 import AddForm from './AddForm'
 import { ITask, ITodo } from '../interfaces';
+import './stylesheets/TodosList.scss'
 
 type TodosProps = {
   title: string, 
@@ -11,13 +12,16 @@ type TodosProps = {
 }
 
 const TodosList: React.FC <TodosProps> = ({ title, tasks, onNewTask }) => 
-<>
-  <h2>{title}</h2>
-  <AddForm
-    placeholder="Add new task"
-    handleAdding={onNewTask}
-  />
-  <ul>
+<li className="todos-item">
+  <div className="tasks-header">
+    <h2>{title}</h2>
+    <AddForm
+      placeholder="Add new task"
+      handleAdding={onNewTask}
+      className="tasks-form"
+    />
+  </div>
+  <ul className="tasks-list">
     {
       tasks.map(task => 
         <Task
@@ -27,6 +31,6 @@ const TodosList: React.FC <TodosProps> = ({ title, tasks, onNewTask }) =>
       )
     }
   </ul>
-</>
+</li>
 
 export default TodosList;

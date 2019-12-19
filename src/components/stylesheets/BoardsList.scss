@@ -1,22 +1,4 @@
-$prime-color: #B8C5D6;
-$boards-color: #EDF5FC;
-$boards-text-color: #272D2D;
-$main-font: 'Arial', sans-serif;
-
-*{
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0px;
-  font-family: $main-font;
-  background-color: $prime-color;
-}
-
-#react-container {
-  min-height: 100vh;
-  padding: 20px;
-}
+@import 'vars';
 
 .boards {
   &-list {
@@ -24,7 +6,7 @@ body {
     margin: 0px;
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 20%));
+    grid-template-columns: repeat(auto-fill, minmax(10%,300px));
     justify-content: center;
     // grid-template-rows: repeat(auto-fill, 200px);
     gap: 20px;

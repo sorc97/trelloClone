@@ -6,6 +6,7 @@ import BoardsPage from './BoardsPage';
 import TodosPage from './TodosPage';
 import { Route, Switch, RouteComponentProps } from 'react-router-dom';
 import { Context } from '../context'
+import './stylesheets/style.scss';
 
 // Router params
 interface MatchParams {
@@ -25,16 +26,15 @@ const getInitialState = (): AppState => {
 }
 
 // Initial state
-// const initialState: AppState = getInitialState();
-const initialState: AppState = {boardsList: []};
+const initialState: AppState = getInitialState();
+// const initialState: AppState = {boardsList: []};
 
 const App: React.FunctionComponent = () => {
-  // const [state, dispatch] = useReducer(reducer, initialState); 
   const [state, setState] = useState<AppState>(initialState);
 
-  /* useEffect(() => {
+  useEffect(() => {
     localStorage.setItem('trello-store', JSON.stringify(state));
-  }, [state]) */
+  }, [state])
 
   useEffect(() => {
     console.log(state);
