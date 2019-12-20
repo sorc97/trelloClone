@@ -6,10 +6,8 @@ interface InitialFields {
 
 export interface IBoard extends InitialFields {
   date: Date,
-  todos?: Array<ITodo>
-  // todos: {
-  //   [name: string]: ITodo
-  // }
+  // todos?: Array<ITodo>
+  todos: ITodoList
   // todosList?: Array<ITodo>
 }
 
@@ -18,8 +16,13 @@ export interface ITodo extends InitialFields {
   tasks: Array<ITask>
 }
 
+export interface ITodoList {
+  [id: string]: ITodo
+}
+
 export interface ITask extends InitialFields {
-  isDone: boolean
+  isDone: boolean,
+  todoId: string
 }
 
 export interface IAction {

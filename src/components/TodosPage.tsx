@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import TodosList from './TodosList'
 import AddForm from './AddForm'
-import { ITodo, IBoard } from '../interfaces';
+import { ITodo, IBoard, ITodoList } from '../interfaces';
 import { v4 } from 'uuid';
 import { Context } from '../context';
 import './stylesheets/TodosPage.scss';
@@ -9,12 +9,12 @@ import './stylesheets/TodosPage.scss';
 interface TodosPageProps {
   boardTitle: string,
   // currentBoard: IBoard,
-  todosList: Array<ITodo>,
+  todosList: ITodoList,
   boardId: string,
-  storeTodos: (todosList: ITodo[]) => void
+  storeTodos: (todosList: ITodoList) => void
 }
 type TodosPageState = {
-  todos: Array<ITodo>
+  todos: ITodoList
 }
 // const initialState: TodosPageState = {
 //   todos: []
@@ -33,47 +33,41 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
   }
 
   addNewTodo = (title: string): void => {
-    const todos = [
-      {
+    const id = v4();
+    const todos: ITodoList = {
+      ...this.state.todos,
+      [id]: {
         title,
-        id: v4(),
+        id,
         tasks: []
-      },
-      ...this.state.todos
-    ]
+      }
+    }
     
     this.setState({todos});
   }
 
   addNewTask = (title: string, todoId: string): void => {
-    const todos: ITodo[] = this.state.todos.map(todo => {
-      if(todo.id === todoId) {
-        todo.tasks = [
-          ...todo.tasks, 
-          {
-            title: title,
-            id: v4(),
-            isDone: false
-          }
-        ]
+    const currentTodo: ITodo = {...this.state.todos[todoId]};
+    currentTodo.tasks = [
+      ...currentTodo.tasks,
+      {
+        title,
+        id: v4(),
+        isDone: false,
+        todoId
       }
-      return todo;
-    })
+    ]
     
-    this.setState({todos});
+    this.setState({
+      todos: {
+        ...this.state.todos,
+        [todoId]: currentTodo
+      }
+    });
   }
 
   removeTask = (id: string, todoId: string): void => {
-    console.log(todoId);
-    const todos: ITodo[] = this.state.todos.map(todo => {
-      if(todo.id === todoId) {
-        todo.tasks = todo.tasks.filter(task => task.id !== id);
-      }
-      
-      return todo;
-    })
-
-    this.setState({todos});
+    
   }
 
   addTaskToNewTodo = (id: string, todoId: string): void => {
@@ -101,11 +95,11 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
           />
         </div>
         {
-          (!todos.length) ?
+          (!Object.values(todos).length) ?
             <p>No todos</p> :
             <ul className="todos-list">
               {
-                todos.map(todo => 
+                Object.values(todos).map(todo => 
                   <TodosList 
                     {...todo}
                     onNewTask={(title: string) => this.addNewTask(title, todo.id)}

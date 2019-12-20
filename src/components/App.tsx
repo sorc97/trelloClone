@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 // import reducer from '../reducer'
-import { IBoard, ITodo, ITask, AppState } from '../interfaces';
+import { IBoard, ITodo, ITask, AppState, ITodoList } from '../interfaces';
 import { v4 } from 'uuid';
 import BoardsPage from './BoardsPage';
 import TodosPage from './TodosPage';
@@ -52,18 +52,18 @@ const App: React.FunctionComponent = () => {
           title,
           id: v4(),
           date: new Date(),
-          todos: []
+          todos: {}
         }
       ]
     })
   }   
 
-  const storeTodos = (boardId: string, todosList: Array<ITodo>): void => {
+  const storeTodos = (boardId: string, todosList: ITodoList): void => {
     console.log('This is store todos', todosList);
 
     const boardsList = state.boardsList.map(board => {
       if(board.id === boardId) {
-        board.todos = [...todosList];
+        board.todos = {...todosList};
       }
       
       return board
@@ -92,10 +92,10 @@ const App: React.FunctionComponent = () => {
 
             return(
               <TodosPage 
-                todosList={todos||[]}
+                todosList={todos||{}}
                 boardTitle={title}
                 boardId={id}
-                storeTodos={(todosList: ITodo[]) => storeTodos(id, todosList)}
+                storeTodos={(todosList: ITodoList) => storeTodos(id, todosList)}
               />
             )
           }
