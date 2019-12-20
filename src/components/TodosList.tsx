@@ -9,10 +9,12 @@ type TodosProps = {
   title: string, 
   id?: string,
   tasks?: Array<ITask>,
-  onNewTask: (title: string) => void
+  onNewTask: (title: string) => void,
+  handleDrop?: (taskId: string, newTodoId: string) => void,
+  handleDrag?: (todoId: string) => void
 }
 
-const TodosList: React.FC <TodosProps> = ({ title, tasks, onNewTask, id }) => 
+const TodosList: React.FC <TodosProps> = ({ title, tasks, onNewTask, id, handleDrop, handleDrag }) => 
 <li className="todos-item">
   <div className="tasks-header">
     <h2>{title}</h2>
@@ -22,13 +24,18 @@ const TodosList: React.FC <TodosProps> = ({ title, tasks, onNewTask, id }) =>
       className="tasks-form"
     />
   </div>
-  <Droppable id={id} className="droppable-wrapper">
+  <Droppable 
+    id={id} 
+    className="droppable-wrapper"
+    handleDrop={handleDrop}
+  >
     <ul className="tasks-list">
       {
         tasks.map(task => 
           <Task
             key={task.id}
-            {...task}         
+            {...task}
+            handleDrag={():void => handleDrag(id)}
           />
         )
       }

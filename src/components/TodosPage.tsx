@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import TodosList from './TodosList'
 import AddForm from './AddForm'
-import { ITodo, IBoard, ITodoList } from '../interfaces';
+import { ITodo, IBoard, ITodoList, ITask } from '../interfaces';
 import { v4 } from 'uuid';
 import { Context } from '../context';
 import './stylesheets/TodosPage.scss';
@@ -13,16 +13,16 @@ interface TodosPageProps {
   boardId: string,
   storeTodos: (todosList: ITodoList) => void
 }
+
 type TodosPageState = {
-  todos: ITodoList
+  todos: ITodoList,
+  dragFromTodo: string
 }
-// const initialState: TodosPageState = {
-//   todos: []
-// }
 
 class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
   readonly state = {
-    todos: this.props.todosList
+    todos: this.props.todosList,
+    dragFromTodo: ""
   };
   componentDidMount() {
     console.log("TODOS PAGES DID MOUNT");
@@ -66,17 +66,36 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
     });
   }
 
-  removeTask = (id: string, todoId: string): void => {
+  setDragFromTodo = (todoId: string) => {
+    this.setState({dragFromTodo: todoId})
+  }
+
+  addTaskToNewTodo = (
+    taskId: string, newTodoId: string
+  ): void => {
+    const currentTodoId = this.state.dragFromTodo;
+
+    if(currentTodoId === newTodoId) return; // Exit if drop on the same todo
     
+    const currentTodo: ITodo = this.state.todos[currentTodoId];
+    const currentTask: ITask = currentTodo.tasks.filter(task => task.id === taskId)[0];
+    const newTodo: ITodo = this.state.todos[newTodoId];
+
+    newTodo.tasks = [
+      ...newTodo.tasks,
+      currentTask
+    ]
+
+    currentTodo.tasks = currentTodo.tasks.filter(task => task.id !== taskId);
+    
+    this.setState({
+      todos: {
+        ...this.state.todos,
+        [newTodoId]: newTodo,
+        [currentTodoId]: currentTodo
+      }
+    })
   }
-
-  addTaskToNewTodo = (id: string, todoId: string): void => {
-
-  }
-
-  /* handleDrop = (id: string, todoId: string): void => {
-
-  } */
 
   render() {
     const { boardTitle } = this.props;
@@ -102,8 +121,13 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
                 Object.values(todos).map(todo => 
                   <TodosList 
                     {...todo}
-                    onNewTask={(title: string) => this.addNewTask(title, todo.id)}
+                    onNewTask={(title) => this.addNewTask(title, todo.id)}
                     key={todo.id}
+                    handleDrop={
+                      (taskId, newTodoId) => 
+                        this.addTaskToNewTodo(taskId, newTodoId)
+                    }
+                    handleDrag={this.setDragFromTodo}
                   />
                 )
               }

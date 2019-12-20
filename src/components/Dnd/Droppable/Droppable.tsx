@@ -4,20 +4,20 @@ interface DroppableProps {
   id: string,
   children: React.ReactChild,
   className?: string,
+  handleDrop?: (taskId: string, newTodoId: string) => void
 }
 
-const Droppable: React.FC<DroppableProps> = ({ id, children, className }) => {
+const Droppable: React.FC<DroppableProps> = ({ id, children, className, handleDrop }) => {
 
   const drop = (e: React.DragEvent) => {
     e.preventDefault();
     const droppableElem = e.target as HTMLElement;
     const data: string = e.dataTransfer.getData('id');
-    console.log(data);
 
     const card: HTMLElement = document.getElementById(data);
-    card.style.display = 'block';
+    // card.style.display = 'block';
 
-    droppableElem.appendChild(document.getElementById(data));
+    handleDrop(data, id);
   }
 
   const allowDrop = (e: React.DragEvent) => {

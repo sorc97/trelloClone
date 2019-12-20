@@ -4,16 +4,18 @@ interface DraggableProps {
   children: React.ReactChild,
   id: string,
   className?: string,
+  handleDrag?: () => void
 }
 
-const Draggable: React.FC <DraggableProps> = ({ id, children, className }) => {
+const Draggable: React.FC <DraggableProps> = ({ id, children, className, handleDrag }) => {
 
   const drag = (e: React.DragEvent) => {
     const elem = e.target as HTMLElement;
     e.dataTransfer.setData("id", elem.id);
+    handleDrag();
 
     setTimeout(() => {
-      elem.style.display = 'none';
+      // elem.style.display = 'none';
     }, 0);
   }
 
