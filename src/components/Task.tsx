@@ -13,7 +13,8 @@ type TaskProps = {
 const Task: React.FC<TaskProps> = ({ title, isDone, id, handleDrag }) =>
 <Draggable id={id} className='draggable-wrapper' handleDrag={handleDrag}>
   <li className='tasks-item'>
-    <span>{title}</span>
+    {title}
+    {/* <span>{title}</span> */}
     {/* {!isDone && <span> Not Done</span>} */}
   </li>
 </Draggable>

@@ -15,9 +15,13 @@ const Droppable: React.FC<DroppableProps> = ({ id, children, className, handleDr
     const data: string = e.dataTransfer.getData('id');
 
     const card: HTMLElement = document.getElementById(data);
+    console.log(card);
     // card.style.display = 'block';
 
     handleDrop(data, id);
+    document
+      .querySelectorAll('.draggable-wrapper')
+      .forEach(item => item.classList.remove('underDrag'));
   }
 
   const allowDrop = (e: React.DragEvent) => {
