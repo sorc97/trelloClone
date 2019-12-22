@@ -15,11 +15,16 @@
 
 .draggable-wrapper {
   &.dragged {
-    opacity: 0.1;
+    opacity: 0.5;
   }
 
-  &.underDrag {
+  &.underDrag>.tasks-item {
+    background-color: #607d8b52;
     opacity: 0.5;
+  }
+
+  &.dragged>.tasks-item {
+    background-color: #607d8b52;
   }
 }
 

@@ -5,6 +5,7 @@ import { ITodo, IBoard, ITodoList, ITask } from '../interfaces';
 import { v4 } from 'uuid';
 import { Context } from '../context';
 import './stylesheets/TodosPage.scss';
+import { insert } from '../helpers/array-helpers';
 
 interface TodosPageProps {
   boardTitle: string,
@@ -24,6 +25,7 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
     todos: this.props.todosList,
     dragFromTodo: ""
   };
+
   componentDidMount() {
     console.log("TODOS PAGES DID MOUNT");
   }
@@ -70,9 +72,7 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
     this.setState({dragFromTodo: todoId})
   }
 
-  addTaskToNewTodo = (
-    taskId: string, newTodoId: string
-  ): void => {
+  addTaskToNewTodo = (taskId: string, newTodoId: string, targetTaskId?: string): void => {
     const currentTodoId = this.state.dragFromTodo;
 
     if(currentTodoId === newTodoId) return; // Exit if drop on the same todo
@@ -95,6 +95,58 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
         [currentTodoId]: currentTodo
       }
     })
+  }
+
+  sortTasks = (currentTaskId: string, targetTaskId: string, targetTodoId: string): void => {
+    //Parent todo
+    const parentTodoId: string = this.state.dragFromTodo;
+    const parentTodo: ITodo = this.state.todos[parentTodoId];
+    const currentTask: ITask = parentTodo.tasks.filter(
+      task => task.id === currentTaskId
+    )[0];
+
+
+    //Target todo
+    const targetTodo: ITodo = this.state.todos[targetTodoId];
+    let targetTasksList: ITask[] = targetTodo.tasks;
+    const targetTask: ITask = targetTasksList.filter(task => task.id === targetTaskId)[0];
+    
+    const targetIndex: number = targetTasksList.indexOf(targetTask);
+
+    if(parentTodoId === targetTodoId) {
+      targetTasksList = targetTasksList.filter(todo => todo.id !== currentTaskId);
+    }
+    
+    const sortedTasksList: ITask[] = insert(targetTasksList, targetIndex, currentTask);
+
+    targetTodo.tasks = sortedTasksList;
+
+    if(parentTodoId === targetTodoId) {
+      console.log(targetTodo);
+      this.setState({
+        todos: {
+          ...this.state.todos,
+          [targetTodoId]: targetTodo
+        }
+      })
+
+      return;
+    }
+
+    parentTodo.tasks = parentTodo.tasks.filter(todo => todo.id !== currentTaskId);
+    
+
+    console.log(sortedTasksList);
+    this.setState({
+      todos: {
+        ...this.state.todos,
+        [targetTodoId]: targetTodo,
+        [parentTodoId]: parentTodo
+      }
+    })
+    /* console.log('Current Task: ', currentTaskId);
+    console.log('Target Task: ', targetTaskId);
+    console.log('Target TOdo: ', targetTodoId); */
   }
 
   render() {
@@ -128,6 +180,10 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
                         this.addTaskToNewTodo(taskId, newTodoId)
                     }
                     handleDrag={this.setDragFromTodo}
+                    sortTasks={
+                      (currentTask, targetTask) => 
+                        this.sortTasks(currentTask, targetTask, todo.id)
+                    }
                   />
                 )
               }
