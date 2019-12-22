@@ -5,8 +5,7 @@ interface DraggableProps {
   id: string,
   className?: string,
   handleDrag?: () => void,
-  // handleDrop?: () => void,
-  handleDrop?: (currentTask: string, targetTask: string) => void
+  handleDrop?: (taskId: string, targetTaskId: string) => void,
 }
 
 let draggableELem: HTMLElement = null;
@@ -31,36 +30,38 @@ const Draggable: React.FC <DraggableProps> = ({
     draggableELem = null;
     
     document
-      .querySelectorAll('.draggable-wrapper')
+      .querySelectorAll(`.${className}`)
       .forEach(item => item.classList.remove('underDrag'));
   }
 
   const dragEnter = (e: React.DragEvent) => {
     e.preventDefault();
+    e.stopPropagation();
 
     let target = e.currentTarget as HTMLElement;
 
     if(target === draggableELem) return;
 
     target.classList.add('underDrag');
-    console.log("Enter");
+    // console.log("Enter");
   }
 
   const dragOver = (e: React.DragEvent) => {
     e.preventDefault();
+    e.stopPropagation();
 
     if(e.currentTarget === draggableELem) return;
 
-    console.log("Over");
   }
 
   const dragLeave = (e: React.DragEvent) => {
+    e.stopPropagation();
     let target = e.currentTarget as HTMLElement;
 
     if(target === draggableELem) return;
 
     target.classList.remove('underDrag');
-    console.log("Leave");
+    // console.log("Leave");
   }
 
   const drop = (e: React.DragEvent) => {
@@ -77,26 +78,6 @@ const Draggable: React.FC <DraggableProps> = ({
       .querySelectorAll('.draggable-wrapper')
       .forEach(item => item.classList.remove('underDrag'));
   }
-
-  /* const dragEnter = (e: React.DragEvent) => {
-    e.preventDefault();
-    let target = e.currentTarget as HTMLElement;
-    if(target === draggableELem) return;
-    target.classList.add('underDrag');
-    console.log(e.currentTarget);
-  }
-
-  const dragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    if(e.currentTarget === draggableELem.firstChild) return;
-  }
-
-  const dragLeave = (e: React.DragEvent) => {
-    let target = e.currentTarget as HTMLElement;
-    if(target === draggableELem) return;
-    target.classList.remove('underDrag');
-    console.log(e.relatedTarget);
-  } */
 
   const notAllowDrop = (e: React.DragEvent) => {
     // e.stopPropagation();

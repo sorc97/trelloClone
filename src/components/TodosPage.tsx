@@ -72,22 +72,50 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
     this.setState({dragFromTodo: todoId})
   }
 
-  addTaskToNewTodo = (taskId: string, newTodoId: string, targetTaskId?: string): void => {
-    const currentTodoId = this.state.dragFromTodo;
+  addTaskToNewTodo = (
+    taskId: string, newTodoId: string, targetTaskId?: string
+  ): void => {
 
-    if(currentTodoId === newTodoId) return; // Exit if drop on the same todo
+    const currentTodoId = this.state.dragFromTodo;
+    // Exit if drop on the same todo 
+    if( !targetTaskId && (currentTodoId === newTodoId) ) return;
     
     const currentTodo: ITodo = this.state.todos[currentTodoId];
     const currentTask: ITask = currentTodo.tasks.filter(task => task.id === taskId)[0];
     const newTodo: ITodo = this.state.todos[newTodoId];
-
-    newTodo.tasks = [
-      ...newTodo.tasks,
-      currentTask
-    ]
-
-    currentTodo.tasks = currentTodo.tasks.filter(task => task.id !== taskId);
     
+    // Sort if dropped on another task
+    if(targetTaskId) {
+      let targetTasksList: ITask[] = newTodo.tasks;
+      const targetTask: ITask = targetTasksList.filter(task => task.id === targetTaskId)[0];
+      const targetIndex: number = targetTasksList.indexOf(targetTask);
+      //Remove task if same todo
+      if(currentTodoId === newTodoId) {
+        targetTasksList = targetTasksList.filter(todo => todo.id !== taskId);
+      }
+      //Tasks sorting
+      const sortedTasksList: ITask[] = insert(targetTasksList, targetIndex, currentTask);
+      newTodo.tasks = sortedTasksList;
+      //State changing if dropped on the same todo
+      if(currentTodoId === newTodoId) { 
+        this.setState({
+          todos: {
+            ...this.state.todos,
+            [newTodoId]: newTodo
+          }
+        })
+        return;
+      }
+
+    } else {
+      newTodo.tasks = [ //Task additing if dropped on the list
+        ...newTodo.tasks,
+        currentTask
+      ]
+    }
+    //Remove task from old todo
+    currentTodo.tasks = currentTodo.tasks.filter(task => task.id !== taskId);
+    // State changing if dropped on the different todos
     this.setState({
       todos: {
         ...this.state.todos,
@@ -97,62 +125,9 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
     })
   }
 
-  sortTasks = (currentTaskId: string, targetTaskId: string, targetTodoId: string): void => {
-    //Parent todo
-    const parentTodoId: string = this.state.dragFromTodo;
-    const parentTodo: ITodo = this.state.todos[parentTodoId];
-    const currentTask: ITask = parentTodo.tasks.filter(
-      task => task.id === currentTaskId
-    )[0];
-
-
-    //Target todo
-    const targetTodo: ITodo = this.state.todos[targetTodoId];
-    let targetTasksList: ITask[] = targetTodo.tasks;
-    const targetTask: ITask = targetTasksList.filter(task => task.id === targetTaskId)[0];
-    
-    const targetIndex: number = targetTasksList.indexOf(targetTask);
-
-    if(parentTodoId === targetTodoId) {
-      targetTasksList = targetTasksList.filter(todo => todo.id !== currentTaskId);
-    }
-    
-    const sortedTasksList: ITask[] = insert(targetTasksList, targetIndex, currentTask);
-
-    targetTodo.tasks = sortedTasksList;
-
-    if(parentTodoId === targetTodoId) {
-      console.log(targetTodo);
-      this.setState({
-        todos: {
-          ...this.state.todos,
-          [targetTodoId]: targetTodo
-        }
-      })
-
-      return;
-    }
-
-    parentTodo.tasks = parentTodo.tasks.filter(todo => todo.id !== currentTaskId);
-    
-
-    console.log(sortedTasksList);
-    this.setState({
-      todos: {
-        ...this.state.todos,
-        [targetTodoId]: targetTodo,
-        [parentTodoId]: parentTodo
-      }
-    })
-    /* console.log('Current Task: ', currentTaskId);
-    console.log('Target Task: ', targetTaskId);
-    console.log('Target TOdo: ', targetTodoId); */
-  }
-
   render() {
     const { boardTitle } = this.props;
     const { todos } = this.state;
-    // const currentTodos = todos.filter(todo => todo.board === boardId);
     console.log(this.state);
     
     return(
@@ -176,14 +151,10 @@ class TodosPage extends React.Component<TodosPageProps, TodosPageState> {
                     onNewTask={(title) => this.addNewTask(title, todo.id)}
                     key={todo.id}
                     handleDrop={
-                      (taskId, newTodoId) => 
-                        this.addTaskToNewTodo(taskId, newTodoId)
+                      (taskId, targetTaskId?) => 
+                        this.addTaskToNewTodo(taskId, todo.id, targetTaskId)
                     }
                     handleDrag={this.setDragFromTodo}
-                    sortTasks={
-                      (currentTask, targetTask) => 
-                        this.sortTasks(currentTask, targetTask, todo.id)
-                    }
                   />
                 )
               }

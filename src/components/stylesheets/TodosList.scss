@@ -42,4 +42,9 @@
 
 .droppable-wrapper {
   height: 85%;
+  &.underDrag {
+    // background: #7fffd4a1;
+    background: antiquewhite;
+    // background: seashell;
+  }
 }

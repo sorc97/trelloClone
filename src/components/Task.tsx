@@ -8,15 +8,15 @@ type TaskProps = {
   title: string,
   isDone: boolean,
   handleDrag: () => void,
-  sortTasks?: (currentTask: string, targetTask: string) => void
+  handleDrop?: (taskId: string, targetTaskId?: string) => void,
 }
 
-const Task: React.FC<TaskProps> = ({ title, isDone, id, handleDrag, sortTasks }) =>
+const Task: React.FC<TaskProps> = ({ title, isDone, id, handleDrag, handleDrop }) =>
 <Draggable 
   id={id} 
   className='draggable-wrapper' 
   handleDrag={handleDrag}
-  handleDrop={sortTasks}
+  handleDrop={handleDrop}
 >
   <li className='tasks-item'>
     {title}

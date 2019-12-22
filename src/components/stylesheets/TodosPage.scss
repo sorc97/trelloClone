@@ -6,6 +6,8 @@
 }
 
 .todos-header {
+  display: flex;
+  align-items: center;
   height: 10%;
   padding: 10px $main-padding;
 }

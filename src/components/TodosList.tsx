@@ -10,13 +10,12 @@ type TodosProps = {
   id?: string,
   tasks?: Array<ITask>,
   onNewTask: (title: string) => void,
-  handleDrop?: (taskId: string, newTodoId: string) => void,
+  handleDrop?: (taskId: string, targetTaskId?: string) => void,
   handleDrag?: (todoId: string) => void,
-  sortTasks?: (currentTask: string, targetTask: string) => void
 }
 
 const TodosList: React.FC <TodosProps> = ({ 
-  title, tasks, onNewTask, id, handleDrop, handleDrag, sortTasks
+  title, tasks, onNewTask, id, handleDrop, handleDrag
 }) => 
 <li className="todos-item">
   <div className="tasks-header">
@@ -39,12 +38,13 @@ const TodosList: React.FC <TodosProps> = ({
             key={task.id}
             {...task}
             handleDrag={():void => handleDrag(id)}
-            sortTasks={sortTasks}
+            handleDrop={handleDrop}
           />
         )
       }
     </ul>
   </Droppable>
 </li>
+
 
 export default TodosList;
