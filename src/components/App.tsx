@@ -5,7 +5,8 @@ import { v4 } from 'uuid';
 import BoardsPage from './BoardsPage';
 import TodosPage from './TodosPage';
 import { Route, Switch, RouteComponentProps } from 'react-router-dom';
-import { Context } from '../context'
+import { Context } from '../context';
+import { insert, findElementById } from '../helpers/array-helpers';
 import './stylesheets/style.scss';
 
 // Router params
@@ -34,16 +35,10 @@ const App: React.FunctionComponent = () => {
 
   useEffect(() => {
     localStorage.setItem('trello-store', JSON.stringify(state));
+    console.log(state);
   }, [state])
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
-  const findBoardById = (id: string): IBoard => {
-    return state.boardsList.filter(board => board.id === id)[0]
-  }
-
+  // ADD BOARD
   const addBoard = (title: string): void => {
     setState({
       boardsList: [
@@ -58,52 +53,146 @@ const App: React.FunctionComponent = () => {
     })
   }   
 
-  const storeTodos = (boardId: string, todosList: ITodoList): void => {
-    console.log('This is store todos', todosList);
-
+  // ADD TODO
+  const addNewTodo = (title: string, boardId: string): void => {
+    const id = v4();
     const boardsList = state.boardsList.map(board => {
       if(board.id === boardId) {
-        board.todos = {...todosList};
+        board.todos = {
+          ...board.todos,
+          [id]: {
+            title,
+            id,
+            tasks: []
+          }
+        }
+      }
+      return board;
+    })
+
+    setState({boardsList});
+  }
+
+  // ADD TASK
+  const addNewTask = (title: string, todoId: string, boardId: string): void => {
+    const boardsList = state.boardsList.map(board => {  //searching for current board
+      if(board.id === boardId) {
+        const currentTodo: ITodo = {...board.todos[todoId]};  //copy of current todo
+        currentTodo.tasks = [ // new task adding
+          ...currentTodo.tasks,
+          {
+            title,
+            id: v4(),
+            isDone: false,
+            todoId
+          }
+        ]
+
+        board.todos = {  // todo inserting 
+          ...board.todos,
+          [todoId]: currentTodo
+        }
       }
       
-      return board
+      return board;
+    })
+
+    setState({boardsList});
+  }
+
+  //Drag and drop handling
+  const addTaskToNewTodo = (
+    taskId: string, 
+    newTodoId: string, 
+    currentTodoId: string, 
+    boardId: string, 
+    targetTaskId?: string
+  ): void => {
+    // Exit if drop on the same todo 
+    if( !targetTaskId && (currentTodoId === newTodoId) ) return;
+    
+    const currentBoard = findElementById(boardId, state.boardsList);
+    
+    const currentTodo: ITodo = {...currentBoard.todos[currentTodoId]};
+    const currentTask: ITask = findElementById(taskId, currentTodo.tasks);
+    const newTodo: ITodo = {...currentBoard.todos[newTodoId]};
+    
+    // Sort if dropped on another task
+    if(targetTaskId) {
+      let targetTasksList: ITask[] = newTodo.tasks;
+      const targetTask: ITask = findElementById(targetTaskId, targetTasksList);
+      const targetIndex: number = targetTasksList.indexOf(targetTask);
+      //Remove task if same todo
+      if(currentTodoId === newTodoId) {
+        targetTasksList = targetTasksList.filter(todo => todo.id !== taskId);
+      }
+      //Tasks sorting
+      const sortedTasksList: ITask[] = insert(targetTasksList, targetIndex, currentTask);
+      newTodo.tasks = sortedTasksList;
+      //State changing if dropped on the same todo
+      if(currentTodoId === newTodoId) {
+        const boardsList = state.boardsList.map(board => {
+          if(board.id === boardId) {
+            board.todos = {
+              ...board.todos,
+              [newTodoId]: newTodo
+            }
+          }
+          return board;
+        })
+        
+        setState({boardsList})
+        return;
+      }
+    } else {
+      newTodo.tasks = [ //Task adding if dropped on the list
+        ...newTodo.tasks,
+        currentTask
+      ]
+    }
+    //Remove task from old todo
+    currentTodo.tasks = currentTodo.tasks.filter(task => task.id !== taskId);
+    // State changing if dropped on the different todos
+    const boardsList = state.boardsList.map(board => {
+      if(board.id === boardId) {
+        board.todos = {
+          ...board.todos,
+          [newTodoId]: newTodo,
+          [currentTodoId]: currentTodo
+        }
+      }
+      return board;
     })
     
     setState({boardsList});
-  } 
-
-  /* const currentTodos = (id: string): Array<ITodo> => {
-    return todos.filter(todo => todo.boardId === id)
-  } */
+  }
 
   return (
-    /* <Context.Provider value={{
-      dispatch
-    }}> */
-      <Switch>
-        <Route exact path='/' component={
-          () => <BoardsPage boardsList={state.boardsList} onNewBoard={addBoard}/>
-        }/>
-        <Route path='/todos/:id' component={
-          ({match}: MatchProps) => {
-            const { title, todos, id } = findBoardById(match.params.id);
-            // const currentBoard = findBoardById(match.params.id);
-            // const boardsTodos = currentTodos(match.params.id);
+    <Switch>
+      <Route exact path='/' component={
+        () => <BoardsPage boardsList={state.boardsList} onNewBoard={addBoard}/>
+      }/>
+      <Route path='/todos/:id' component={
+        ({match}: MatchProps) => {
+          const currentBoard = findElementById(match.params.id, state.boardsList);
+          const { title, todos, id: boardId } = currentBoard;
 
-            return(
-              <TodosPage 
-                todosList={todos||{}}
-                boardTitle={title}
-                boardId={id}
-                storeTodos={(todosList: ITodoList) => storeTodos(id, todosList)}
-              />
-            )
-          }
-        }/>
-      </Switch>
-    // </Context.Provider>
+          return(
+            <TodosPage 
+              todosList={todos||{}}
+              boardTitle={title}
+              onNewTodo={(title) => addNewTodo(title, boardId)}
+              onNewTask={(title, todoId) => addNewTask(title, todoId, boardId)}
+              onDragTask={
+                (taskId, newTodoId, currentTodoId, targetTaskId?) => 
+                  addTaskToNewTodo(taskId, newTodoId, currentTodoId , boardId, targetTaskId)
+              }
+            />
+          )
+        }
+      }/>
+    </Switch>
   )
 }
-
 
 export default App;

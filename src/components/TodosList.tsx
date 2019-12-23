@@ -19,7 +19,7 @@ const TodosList: React.FC <TodosProps> = ({
 }) => 
 <li className="todos-item">
   <div className="tasks-header">
-    <h2>{title}</h2>
+    <h2 className='tasks-caption'>{title}</h2>
     <AddForm
       placeholder="Add new task"
       handleAdding={onNewTask}

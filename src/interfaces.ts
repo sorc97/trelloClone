@@ -6,8 +6,8 @@ interface InitialFields {
 
 export interface IBoard extends InitialFields {
   date: Date,
-  // todos?: Array<ITodo>
   todos: ITodoList
+  // todos?: Array<ITodo>
   // todosList?: Array<ITodo>
 }
 
@@ -42,6 +42,21 @@ export type AppState = {
   boardsList: Array<IBoard>,
   // activeTodos: Array<ITodo>
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* 
   let boardsList = [
