@@ -1,3 +1,4 @@
+import { RouteComponentProps, match } from 'react-router-dom'
 
 interface InitialFields {
   title: string,
@@ -45,124 +46,9 @@ export type AppState = {
 
 export type BoardsState = Array<IBoard>;
 
-/* 
-  let boardsList = [
-    {
-      title: "Trello",
-      id: "asd23",
-      todos: {
-        "asdj123": {
-          title: "Todo",
-          id: "asdasd123",
-          tasks: [
-            {
-              title: 'Do something',
-              id: v4(),
-              isDone: false
-            },
-            {
-              title: 'Do something',
-              id: v4(),
-              isDone: false
-            }
-          ]
-        },
-        "asdasdj123d1": {
-          title: "Todo",
-          id: "asdasd123",
-          tasks: [
-            {
-              title: 'Do something',
-              id: v4(),
-              isDone: false
-            },
-            {
-              title: 'Do something',
-              id: v4(),
-              isDone: false
-            }
-          ]
-        }
-      }
-    }
-  ]
- */
+export interface MatchParams {
+  id: string
+}
 
-
-/* 
-TodosList = [
-  {
-    id: "asdkj123asd",
-    title: "In Process",
-    todos: [
-      {title: 'Eat', isDone: false, id: "123124124Fasdas"},
-      {title: 'Sleep', isDone: false, id: "223124124Fasdas"},
-      {title: 'Drink', isDone: false, id: "323124124Fasdas"}
-    ]
-  },
-  {
-    id: "asdkj123asd",
-    title: "Done",
-    todos: [
-      {title: 'Wake up', isDone: true, id: "123124124Fasdas"},
-      {title: 'Take shower', isDone: true, id: "223124124Fasdas"},
-      {title: 'Take a breakfast', isDone: true, id: "323124124Fasdas"}
-    ]
-  },
-]
- */
-
-/* state = {
-  boarsList: [
-    {
-      title: 'Trello Clone',
-      id: 535,
-      date: new Date(),
-      totoList: [
-        {
-          id: "asdkj123asd",
-          title: "In Process",
-          todos: [
-            {title: 'Eat', isDone: false, id: "123124124Fasdas"},
-            {title: 'Sleep', isDone: false, id: "223124124Fasdas"},
-            {title: 'Drink', isDone: false, id: "323124124Fasdas"}
-          ]
-        },
-        {
-          id: "asdkj123asd",
-          title: "Done",
-          todos: [
-            {title: 'Wake up', isDone: true, id: "123124124Fasdas"},
-            {title: 'Take shower', isDone: true, id: "223124124Fasdas"},
-            {title: 'Take a breakfast', isDone: true, id: "323124124Fasdas"}
-          ]
-        },
-      ]
-    },
-    {
-      title: 'Dictionary',
-      id: 535,
-      date: new Date(),
-      totoList: [
-        {
-          id: "asdkj123asd",
-          title: "In Process",
-          todos: [
-            {title: 'Eat', isDone: false, id: "123124124Fasdas"},
-            {title: 'Sleep', isDone: false, id: "223124124Fasdas"},
-            {title: 'Drink', isDone: false, id: "323124124Fasdas"}
-          ]
-        },
-        {
-          id: "asdkj123asd",
-          title: "Done",
-          todos: [
-            {title: 'Wake up', isDone: true, id: "123124124Fasdas"},
-            {title: 'Take shower', isDone: true, id: "223124124Fasdas"},
-            {title: 'Take a breakfast', isDone: true, id: "323124124Fasdas"}
-          ]
-        },
-      ]
-    }
-  ]
-} */
+export interface MatchProps extends RouteComponentProps<MatchParams> {
+}

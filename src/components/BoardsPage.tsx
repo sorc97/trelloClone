@@ -1,18 +1,23 @@
 import React, { useContext, useEffect } from 'react';
-// import AddBoardForm from './AddBoardForm';
+import { v4 } from 'uuid';
 import AddForm from './AddForm'
 import BoardsList from './BoardsList';
 import { IBoard } from '../interfaces';
 import { BoardsContext } from './context/BoardsContext';
 import './stylesheets/BoardsPage.scss';
 
-interface BoardsPageProps {
-  onNewBoard?(title: string): void,
-  boardsList: Array<IBoard>
-}
-
-const BoardsPage: React.FC<BoardsPageProps> = ({ boardsList, onNewBoard }) => {
+const BoardsPage: React.FC = () => {
   const [boards, setBoards] = useContext(BoardsContext);
+
+  const addNewBoard = (title: string): void => {
+    const newBoard: IBoard = { 
+      title,
+      id: v4(),
+      date: new Date,
+      todos: {}
+    }
+    setBoards([...boards, newBoard]);
+  }
 
   useEffect(() => {
     console.log("PROVIDER", boards);
@@ -21,12 +26,12 @@ const BoardsPage: React.FC<BoardsPageProps> = ({ boardsList, onNewBoard }) => {
   return (
     <main className='boards'>
       <AddForm 
-        handleAdding={onNewBoard}
+        handleAdding={addNewBoard}
         placeholder="Enter the name of board"
         button="+"
         className="boards-form"
       />
-      <BoardsList boards={boardsList}/>
+      <BoardsList boards={boards}/>
     </main>
   )
 }
