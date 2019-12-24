@@ -26,6 +26,11 @@
     justify-content: space-between;
   }
 
+  &-caption {
+    font-size: 1.3rem;
+    color: #606066;
+  }
+
   &-form > input {
     border: none;
     font-size: 16px;

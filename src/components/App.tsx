@@ -5,7 +5,7 @@ import { v4 } from 'uuid';
 import BoardsPage from './BoardsPage';
 import TodosPage from './TodosPage';
 import { Route, Switch, RouteComponentProps } from 'react-router-dom';
-import { Context } from '../context'
+import { BoardsProvider } from './context/BoardsContext';
 import './stylesheets/style.scss';
 
 // Router params
@@ -77,9 +77,7 @@ const App: React.FunctionComponent = () => {
   } */
 
   return (
-    /* <Context.Provider value={{
-      dispatch
-    }}> */
+    <BoardsProvider>
       <Switch>
         <Route exact path='/' component={
           () => <BoardsPage boardsList={state.boardsList} onNewBoard={addBoard}/>
@@ -101,7 +99,7 @@ const App: React.FunctionComponent = () => {
           }
         }/>
       </Switch>
-    // </Context.Provider>
+      </BoardsProvider>
   )
 }
 

@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 // import AddBoardForm from './AddBoardForm';
 import AddForm from './AddForm'
 import BoardsList from './BoardsList';
 import { IBoard } from '../interfaces';
-import { Context } from '../context';
+import { BoardsContext } from './context/BoardsContext';
 import './stylesheets/BoardsPage.scss';
 
 interface BoardsPageProps {
@@ -12,17 +12,12 @@ interface BoardsPageProps {
 }
 
 const BoardsPage: React.FC<BoardsPageProps> = ({ boardsList, onNewBoard }) => {
-  // const { dispatch } = useContext(Context);  
+  const [boards, setBoards] = useContext(BoardsContext);
 
-  /* const onNewBoard = (title: string): void => {
-    dispatch({
-      type: "addBoard",
-      payload: {
-        title
-      }
-    })
-  } */
-
+  useEffect(() => {
+    console.log("PROVIDER", boards);
+  }, []);
+  
   return (
     <main className='boards'>
       <AddForm 
@@ -36,37 +31,4 @@ const BoardsPage: React.FC<BoardsPageProps> = ({ boardsList, onNewBoard }) => {
   )
 }
 
-
-
-/* 
-class BoardsPage extends Component <{}, BoardsState> {
-  readonly state = initialState;
-
-  addNewBoard = (title: string): void => {
-    const newBoard: IBoard = {
-      title,
-      id: v4(),
-      date: new Date()
-    }
-
-    let boardsList = [
-      newBoard,
-      ...this.state.boardsList
-    ]
-
-    this.setState({boardsList});
-  }
-
-  render() {
-    const { boardsList } = this.state;
-    console.log(this.state);
-    return(
-      <>
-        <AddBoardForm onNewBoard={this.addNewBoard}/>
-        <BoardsList boards={boardsList}/>
-      </>
-    )
-  }
-} 
- */
 export default BoardsPage;

@@ -43,6 +43,8 @@ export type AppState = {
   // activeTodos: Array<ITodo>
 }
 
+export type BoardsState = Array<IBoard>;
+
 /* 
   let boardsList = [
     {
