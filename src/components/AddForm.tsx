@@ -1,5 +1,4 @@
-import React from 'react'
-
+import React, { useState, useRef, useEffect } from 'react'
 
 interface AddFormProps {
   handleAdding: (title: string) => void,
@@ -11,16 +10,30 @@ interface AddFormProps {
 const AddForm: React.FC <AddFormProps> = ({
   handleAdding, placeholder, button, className
 }) => {
-  let textRef: React.RefObject <HTMLInputElement> = React.createRef();
+  // let textRef: React.RefObject <HTMLInputElement> = React.createRef();
+  let textRef: React.RefObject <HTMLInputElement> = useRef(null);
+
+  const [value, setValue] = useState<string>('');
+
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
+
+  const handleChange = (e: React.FormEvent): void => {
+    const target = e.target as HTMLInputElement;
+    setValue(target.value);
+  }
 
   const submit = (e: React.FormEvent): void => {
     e.preventDefault();
-    console.log(textRef.current.value);
-    console.log(e.target);
+    // console.log(textRef.current.value);
+    // console.log(e.target);
+    console.log(value);
 
-    handleAdding(textRef.current.value);
+    handleAdding(value);
     
-    textRef.current.value = '';
+    setValue('');
+    // textRef.current.value = '';
     textRef.current.focus();
   }
 
@@ -29,7 +42,9 @@ const AddForm: React.FC <AddFormProps> = ({
       <input 
         type='text' 
         placeholder={placeholder}
+        value={value}
         ref={textRef} 
+        onChange={handleChange}
         required
       />
         {
