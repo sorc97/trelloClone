@@ -1,72 +1,39 @@
-import React, { useContext } from 'react';
-// import AddBoardForm from './AddBoardForm';
+import React, { useContext, useEffect } from 'react';
+import { v4 } from 'uuid';
 import AddForm from './AddForm'
 import BoardsList from './BoardsList';
 import { IBoard } from '../interfaces';
-import { Context } from '../context';
+import { BoardsContext } from './context/BoardsContext';
 import './stylesheets/BoardsPage.scss';
 
-interface BoardsPageProps {
-  onNewBoard?(title: string): void,
-  boardsList: Array<IBoard>
-}
+const BoardsPage: React.FC = () => {
+  const [boards, setBoards] = useContext(BoardsContext);
 
-const BoardsPage: React.FC<BoardsPageProps> = ({ boardsList, onNewBoard }) => {
-  // const { dispatch } = useContext(Context);  
+  const addNewBoard = (title: string): void => {
+    const newBoard: IBoard = { 
+      title,
+      id: v4(),
+      date: new Date,
+      todos: {}
+    }
+    setBoards([...boards, newBoard]);
+  }
 
-  /* const onNewBoard = (title: string): void => {
-    dispatch({
-      type: "addBoard",
-      payload: {
-        title
-      }
-    })
-  } */
-
+  useEffect(() => {
+    console.log("PROVIDER", boards);
+  }, []);
+  
   return (
     <main className='boards'>
       <AddForm 
-        handleAdding={onNewBoard}
+        handleAdding={addNewBoard}
         placeholder="Enter the name of board"
         button="+"
         className="boards-form"
       />
-      <BoardsList boards={boardsList}/>
+      <BoardsList boards={boards}/>
     </main>
   )
 }
 
-
-
-/* 
-class BoardsPage extends Component <{}, BoardsState> {
-  readonly state = initialState;
-
-  addNewBoard = (title: string): void => {
-    const newBoard: IBoard = {
-      title,
-      id: v4(),
-      date: new Date()
-    }
-
-    let boardsList = [
-      newBoard,
-      ...this.state.boardsList
-    ]
-
-    this.setState({boardsList});
-  }
-
-  render() {
-    const { boardsList } = this.state;
-    console.log(this.state);
-    return(
-      <>
-        <AddBoardForm onNewBoard={this.addNewBoard}/>
-        <BoardsList boards={boardsList}/>
-      </>
-    )
-  }
-} 
- */
 export default BoardsPage;

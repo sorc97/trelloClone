@@ -1,7 +1,3 @@
-import { ITodo, IBoard, ITask } from '../interfaces'
-
-type FoundELement = IBoard | ITodo | ITask;
-
 export const insert = (arr: any, index: number, ...newElements: any): Array<any> => [
   ...arr.slice(0, index),
   ...newElements,
