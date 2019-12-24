@@ -7,8 +7,8 @@ interface InitialFields {
 
 export interface IBoard extends InitialFields {
   date: Date,
-  // todos?: Array<ITodo>
   todos: ITodoList
+  // todos?: Array<ITodo>
   // todosList?: Array<ITodo>
 }
 

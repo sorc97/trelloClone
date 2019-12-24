@@ -142,6 +142,7 @@ const TodosPage: React.FC <TodosPageProps> = ({match}) => {
         <AddForm
           placeholder="Add new Todo"
           handleAdding={addNewTodo}
+
           className="todo-form"
         />
       </div>
@@ -158,6 +159,7 @@ const TodosPage: React.FC <TodosPageProps> = ({match}) => {
                   handleDrop={
                     (taskId, targetTaskId?) => 
                       onDragTask(taskId, todo.id, targetTaskId)
+
                   }
                   handleDrag={setDragFromTodo}
                 />
