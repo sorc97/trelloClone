@@ -15,10 +15,6 @@ const AddForm: React.FC <AddFormProps> = ({
 
   const [value, setValue] = useState<string>('');
 
-  useEffect(() => {
-    console.log(value);
-  }, [value]);
-
   const handleChange = (e: React.FormEvent): void => {
     const target = e.target as HTMLInputElement;
     setValue(target.value);
@@ -26,14 +22,8 @@ const AddForm: React.FC <AddFormProps> = ({
 
   const submit = (e: React.FormEvent): void => {
     e.preventDefault();
-    // console.log(textRef.current.value);
-    // console.log(e.target);
-    console.log(value);
-
     handleAdding(value);
-    
     setValue('');
-    // textRef.current.value = '';
     textRef.current.focus();
   }
 
