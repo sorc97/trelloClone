@@ -98,6 +98,38 @@ const TodosList: React.FC <TodosListProps> = ({
     setNewBoards(newTodosList);
   }
 
+  const editTodoTitle = (newTitle: string, todoId: string): void => {
+    const editingTodo = {...currentTodos[todoId]};
+    editingTodo.title = newTitle;
+
+    const newTodosList: ITodoList = {
+      ...currentTodos,
+      [todoId]: editingTodo 
+    }
+
+    setNewBoards(newTodosList); 
+  }
+
+  const editTask = (
+    newTitle: string, taskId: string, todoId: string
+  ): void => {
+
+    const parentTodo = {...currentTodos[todoId]};
+    parentTodo.tasks = parentTodo.tasks.map(task => {
+      if(task.id === taskId) {
+        task.title = newTitle;
+      }
+      
+      return task;
+    })
+    
+    const newTodos = {
+      ...currentTodos,
+      [todoId]: parentTodo
+    }
+    setNewBoards(newTodos);
+  }
+
   return(
     (!Object.values(currentTodos).length) ?
       <p>No todos</p> :
@@ -113,6 +145,8 @@ const TodosList: React.FC <TodosListProps> = ({
                   onDragTask(taskId, todo.id, targetTaskId)
               }
               handleDrag={setDragFromTodo}
+              onEditTodoTitle={(title) => editTodoTitle(title, todo.id)}
+              onEditTask={(newTitle, taskId) => editTask(newTitle, taskId, todo.id)}
             />
           )
         }
