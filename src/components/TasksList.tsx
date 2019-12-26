@@ -11,12 +11,27 @@ interface TasksListProps {
     e: React.FocusEvent, 
     handleEditing: (title: string) => void
   ) => void,
-  onEditTask?: (newTitle: string, taskId: string) => void
+  setNewTodosList?: (newTasks: ITask[]) => void
 }
 
 const TasksList: React.FC <TasksListProps> = ({
-  tasks, handleDrag, handleDrop, startEditing, endEditing, onEditTask
+  tasks, handleDrag, handleDrop, startEditing, endEditing, setNewTodosList
 }) => {
+
+  const editTask = (
+    newTitle: string, taskId: string
+  ): void => {
+
+    const newTasksList = tasks.map(task => {
+      if(task.id === taskId) {
+        task.title = newTitle;
+      }
+      
+      return task;
+    })
+
+    setNewTodosList(newTasksList);
+  }
 
   return (
     <ul className="tasks-list">
@@ -30,7 +45,7 @@ const TasksList: React.FC <TasksListProps> = ({
             startEditing={startEditing}
             endEditing={(e) => 
               endEditing(
-                e, (newTitle) => onEditTask(newTitle, task.id)
+                e, (newTitle) => editTask(newTitle, task.id)
               )
             }
           />

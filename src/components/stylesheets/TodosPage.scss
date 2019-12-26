@@ -7,6 +7,7 @@
 
 .todos-header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   height: 10%;
   padding: 10px $main-padding;
@@ -19,4 +20,5 @@
   overflow-y: hidden;
   padding: $main-padding;
   white-space: nowrap;
+  // background-color: slategrey;
 }

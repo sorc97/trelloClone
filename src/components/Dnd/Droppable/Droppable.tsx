@@ -23,12 +23,12 @@ const Droppable: React.FC<DroppableProps> = ({id, children, className, handleDro
   const dragEnter = (e: React.DragEvent) => {
     e.preventDefault();
     const target = e.currentTarget as HTMLElement;
-    // target.classList.add('underDrag');
+    target.classList.add('underDrag');
   }
 
   const dragLeave = (e: React.DragEvent) => {
     const target = e.currentTarget as HTMLElement;
-    // target.classList.remove('underDrag');
+    target.classList.remove('underDrag');
   }
 
   const allowDrop = (e: React.DragEvent) => { 

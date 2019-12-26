@@ -7,21 +7,36 @@ import './stylesheets/TodosList.scss';
 
 interface TodosListProps {
   currentTodos: ITodoList,
-  setNewBoards: (newTodo: ITodoList) => void
+  setNewBoards: (newTodo: ITodoList) => void,
+  setDragFromTodo?: (todoId: string) => void,
+  dragFromTodo?: string
 }
 
 type TodosListState = string;
 
 // TodosList component
 const TodosList: React.FC <TodosListProps> = ({ 
-  setNewBoards, currentTodos 
+  setNewBoards, currentTodos, setDragFromTodo, dragFromTodo
 }) => {
   // State 
-  const [dragFromTodo, setDragTodo] = useState<TodosListState>("");
+  // const [dragFromTodo, setDragTodo] = useState<TodosListState>("");
 
   // Sets board which contains dragged task
-  const setDragFromTodo = (todoId: string) => {
+  /* const setDragFromTodo = (todoId: string) => {
     setDragTodo(todoId);
+  } */
+
+  // 
+  const setNewTodosList = (todoId: string, newTasks: ITask[]): void => {
+    const parentTodo = {...currentTodos[todoId]};
+    parentTodo.tasks = newTasks;
+    
+    const newTodos = {
+      ...currentTodos,
+      [todoId]: parentTodo
+    }
+
+    setNewBoards(newTodos);
   }
 
   // Creating of new task
@@ -110,26 +125,6 @@ const TodosList: React.FC <TodosListProps> = ({
     setNewBoards(newTodosList); 
   }
 
-  const editTask = (
-    newTitle: string, taskId: string, todoId: string
-  ): void => {
-
-    const parentTodo = {...currentTodos[todoId]};
-    parentTodo.tasks = parentTodo.tasks.map(task => {
-      if(task.id === taskId) {
-        task.title = newTitle;
-      }
-      
-      return task;
-    })
-    
-    const newTodos = {
-      ...currentTodos,
-      [todoId]: parentTodo
-    }
-    setNewBoards(newTodos);
-  }
-
   return(
     (!Object.values(currentTodos).length) ?
       <p>No todos</p> :
@@ -146,7 +141,7 @@ const TodosList: React.FC <TodosListProps> = ({
               }
               handleDrag={setDragFromTodo}
               onEditTodoTitle={(title) => editTodoTitle(title, todo.id)}
-              onEditTask={(newTitle, taskId) => editTask(newTitle, taskId, todo.id)}
+              setNewTodosList={(newTasks) => setNewTodosList(todo.id, newTasks)}
             />
           )
         }
