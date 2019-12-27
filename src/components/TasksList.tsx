@@ -6,22 +6,14 @@ interface TasksListProps {
   tasks: ITask[],
   handleDrag?: () => void,
   handleDrop?: (taskId: string, targetTaskId?: string) => void,
-  startEditing?: (e: React.MouseEvent) => void,
-  endEditing?: (
-    e: React.FocusEvent, 
-    handleEditing: (title: string) => void
-  ) => void,
   setNewTodosList?: (newTasks: ITask[]) => void
 }
 
 const TasksList: React.FC <TasksListProps> = ({
-  tasks, handleDrag, handleDrop, startEditing, endEditing, setNewTodosList
+  tasks, handleDrag, handleDrop, setNewTodosList
 }) => {
 
-  const editTask = (
-    newTitle: string, taskId: string
-  ): void => {
-
+  const editTask = ( newTitle: string, taskId: string ): void => {
     const newTasksList = tasks.map(task => {
       if(task.id === taskId) {
         task.title = newTitle;
@@ -42,12 +34,7 @@ const TasksList: React.FC <TasksListProps> = ({
             {...task}
             handleDrag={handleDrag}
             handleDrop={handleDrop}
-            startEditing={startEditing}
-            endEditing={(e) => 
-              endEditing(
-                e, (newTitle) => editTask(newTitle, task.id)
-              )
-            }
+            onEditTask={(newTitle) => editTask(newTitle, task.id)}
           />
         )
       }

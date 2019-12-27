@@ -8,26 +8,18 @@ import './stylesheets/TodosList.scss';
 interface TodosListProps {
   currentTodos: ITodoList,
   setNewBoards: (newTodo: ITodoList) => void,
-  setDragFromTodo?: (todoId: string) => void,
   dragFromTodo?: string
 }
 
-type TodosListState = string;
-
 // TodosList component
 const TodosList: React.FC <TodosListProps> = ({ 
-  setNewBoards, currentTodos, setDragFromTodo, dragFromTodo
+  setNewBoards, currentTodos, dragFromTodo
 }) => {
-  // State 
-  // const [dragFromTodo, setDragTodo] = useState<TodosListState>("");
-
-  // Sets board which contains dragged task
-  /* const setDragFromTodo = (todoId: string) => {
-    setDragTodo(todoId);
-  } */
 
   // 
-  const setNewTodosList = (todoId: string, newTasks: ITask[]): void => {
+  const setNewTodosList = (
+    todoId: string, newTasks: ITask[]
+  ): void => {
     const parentTodo = {...currentTodos[todoId]};
     parentTodo.tasks = newTasks;
     
@@ -37,27 +29,6 @@ const TodosList: React.FC <TodosListProps> = ({
     }
 
     setNewBoards(newTodos);
-  }
-
-  // Creating of new task
-  const addNewTask = (title: string, todoId: string): void => {
-    const currentTodo: ITodo = {...currentTodos[todoId]};
-    currentTodo.tasks = [
-      ...currentTodo.tasks,
-      {
-        title,
-        id: v4(),
-        isDone: false,
-        todoId
-      }
-    ]
-
-    const newTodosList: ITodoList = {
-      ...currentTodos,
-      [currentTodo.id]: currentTodo
-    }
-
-    setNewBoards(newTodosList);
   }
 
   // Task's drop handling
@@ -113,10 +84,11 @@ const TodosList: React.FC <TodosListProps> = ({
     setNewBoards(newTodosList);
   }
 
+  // Todo title editing
   const editTodoTitle = (newTitle: string, todoId: string): void => {
     const editingTodo = {...currentTodos[todoId]};
     editingTodo.title = newTitle;
-
+    
     const newTodosList: ITodoList = {
       ...currentTodos,
       [todoId]: editingTodo 
@@ -134,12 +106,10 @@ const TodosList: React.FC <TodosListProps> = ({
             <Todo 
               key={todo.id} 
               {...todo}
-              onNewTask={(title) => addNewTask(title, todo.id)}
               handleDrop={
                 (taskId, targetTaskId?) => 
                   onDragTask(taskId, todo.id, targetTaskId)
               }
-              handleDrag={setDragFromTodo}
               onEditTodoTitle={(title) => editTodoTitle(title, todo.id)}
               setNewTodosList={(newTasks) => setNewTodosList(todo.id, newTasks)}
             />

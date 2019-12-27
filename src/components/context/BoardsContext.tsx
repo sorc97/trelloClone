@@ -25,6 +25,10 @@ export const BoardsProvider: React.FC <IBoardProviderProps> = ({children}) => {
     localStorage.setItem('trello-store', JSON.stringify(boards));
   }, [boards])
 
+  useEffect(() => {
+    console.log(boards);
+  }, [boards])
+
   return(
     <BoardsContext.Provider value={[boards, setBoards]}>
       {children}

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './stylesheets/Task.scss';
 import Draggable from './Dnd/Draggable/Draggable';
+import { TodoContext } from './context/TodoContext';
 
 type TaskProps = {
   id?: string,
@@ -8,27 +9,36 @@ type TaskProps = {
   isDone: boolean,
   handleDrag?: () => void,
   handleDrop?: (taskId: string, targetTaskId?: string) => void,
-  startEditing?: (e: React.MouseEvent) => void,
-  endEditing?: (e: React.FocusEvent) => void,
-  // onEditTask?: (newTitle: string) => void
+  onEditTask?: (title: string, id: string) => void
 }
 
 const Task: React.FC<TaskProps> = ({ 
-  title, isDone, id, handleDrag, handleDrop, startEditing, endEditing
-}) =>
-<Draggable 
-  id={id} 
-  className='draggable-wrapper' 
-  handleDrag={handleDrag}
-  handleDrop={handleDrop}
->
-  <li 
-    onDoubleClick={startEditing}
-    onBlur={endEditing}
-    className='tasks-item'
-  >
-    {title}
-  </li>
-</Draggable>
+  title, isDone, id, handleDrag, handleDrop, onEditTask
+}) => {
+
+  const {startEditing, endEditing} = useContext(TodoContext);
+  
+  return(
+    <Draggable 
+      id={id} 
+      className='draggable-wrapper' 
+      handleDrag={handleDrag}
+      handleDrop={handleDrop}
+    >
+      <li 
+        onDoubleClick={startEditing}
+        onBlur={(e) => 
+          endEditing(
+            e, (title) => onEditTask(title, id)
+          )
+        }
+        className='tasks-item'
+      >
+        {title}
+      </li>
+    </Draggable>
+  )
+}
+
 
 export default Task;

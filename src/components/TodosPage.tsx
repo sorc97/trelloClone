@@ -8,7 +8,7 @@ import { BoardsContext } from './context/BoardsContext';
 import './stylesheets/TodosPage.scss';
 import { findElementById } from '../helpers/array-helpers';
 import { match } from 'react-router-dom';
-
+import { TodosPageContext } from './context/TodosPageContext';
 
 interface TodosPageProps {
   match: match<MatchParams>
@@ -68,26 +68,27 @@ const TodosPage: React.FC <TodosPageProps> = ({match}) => {
   }
   
   return(
-    <main className='todos'>
-      <div className="todos-header">
-        <h1>{currentBoard.title}</h1>
-        <AddForm
-          placeholder="Add new Todo"
-          handleAdding={addNewTodo}
-          className="todo-form"
+    <TodosPageContext.Provider value={{setDragFromTodo}}>
+      <main className='todos'>
+        <div className="todos-header">
+          <h1>{currentBoard.title}</h1>
+          <AddForm
+            placeholder="Add new Todo"
+            handleAdding={addNewTodo}
+            className="todo-form"
+          />
+          <Basket 
+            removeTask={(taskId) => removeTask(taskId, dragFromTodo)}
+            basketText="Drop task here to remove"
+          />
+        </div>
+        <TodosList 
+          currentTodos={currentTodos}
+          setNewBoards={setNewBoards}
+          dragFromTodo={dragFromTodo}
         />
-        <Basket 
-          removeTask={(taskId) => removeTask(taskId, dragFromTodo)}
-          basketText="Drop task here to remove"
-        />
-      </div>
-      <TodosList 
-        currentTodos={currentTodos}
-        setNewBoards={setNewBoards}
-        dragFromTodo={dragFromTodo}
-        setDragFromTodo={setDragFromTodo}
-      />
-    </main>
+      </main>
+    </TodosPageContext.Provider>
   )
 } 
 

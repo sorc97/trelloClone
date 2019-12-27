@@ -28,3 +28,12 @@ ul {
 h1, h2, h3, h4, h5 {
   margin: 0px;
 }
+
+[contenteditable=true] {
+  &:focus {
+    outline: 3px solid #2196f3;
+    cursor: auto;
+    // outline: none;
+    // border: 2px solid black;
+  }
+}
