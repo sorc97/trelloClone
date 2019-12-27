@@ -23,7 +23,7 @@ export interface ITodoList {
 
 export interface ITask extends InitialFields {
   isDone: boolean,
-  todoId: string
+  todoId?: string
 }
 
 export interface IAction {
