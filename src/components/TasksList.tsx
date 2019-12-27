@@ -1,16 +1,20 @@
 import React from 'react'
 import { ITask } from '../interfaces'
 import Task from './Task'
+import Composer from './Composer'
+import {v4} from 'uuid'
 
 interface TasksListProps {
   tasks: ITask[],
   handleDrag?: () => void,
   handleDrop?: (taskId: string, targetTaskId?: string) => void,
-  setNewTodosList?: (newTasks: ITask[]) => void
+  setNewTodosList?: (newTasks: ITask[]) => void,
+  isAdding: boolean,
+  toggleAdding: () => void
 }
 
 const TasksList: React.FC <TasksListProps> = ({
-  tasks, handleDrag, handleDrop, setNewTodosList
+  tasks, handleDrag, handleDrop, setNewTodosList, isAdding, toggleAdding
 }) => {
 
   const editTask = ( newTitle: string, taskId: string ): void => {
@@ -25,6 +29,21 @@ const TasksList: React.FC <TasksListProps> = ({
     setNewTodosList(newTasksList);
   }
 
+  // Newa task creating
+  const addNewTask = (title: string): void => {
+    const id = v4();
+    const newTasks: ITask[] = [
+      ...tasks,
+      {
+        title,
+        id,
+        isDone: false
+      }
+    ] 
+
+    setNewTodosList(newTasks);
+  }
+
   return (
     <ul className="tasks-list">
       {
@@ -37,6 +56,14 @@ const TasksList: React.FC <TasksListProps> = ({
             onEditTask={(newTitle) => editTask(newTitle, task.id)}
           />
         )
+      }
+      {
+        isAdding &&
+          <Composer
+            onClose={toggleAdding}
+            handleSubmit={addNewTask}
+            placeholder="Enter task"
+          />
       }
     </ul>
   )

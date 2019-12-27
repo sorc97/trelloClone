@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {v4} from 'uuid';
 import { ITask } from '../interfaces';
 import AddForm from './AddForm';
@@ -17,6 +17,8 @@ interface TodoProps {
   setNewTodosList?: (newTasks: ITask[]) => void
 }
 
+type TodoState = boolean;
+
 const Todo: React.FC <TodoProps> = ({
   title, 
   id, 
@@ -27,6 +29,7 @@ const Todo: React.FC <TodoProps> = ({
 }) => {
 
   const { setDragFromTodo } = useContext(TodosPageContext);
+  const [ isAdding, setAdding ] = useState<TodoState>(false);
 
   // Start of Edding 
   const startEditing = (e: React.MouseEvent|MouseEvent): void => {
@@ -72,32 +75,9 @@ const Todo: React.FC <TodoProps> = ({
     target.removeAttribute('contenteditable');
     target.classList.remove('editing');
   }
-
-  // Creating of new task
-  const addNewTask = (title: string, todoId: string): void => {
-    const id = v4();
-    const newTasks: ITask[] = [
-      ...tasks,
-      {
-        title,
-        id,
-        isDone: false,
-        todoId
-      }
-    ] 
-
-    const addAndFocus = async () => {
-      await setNewTodosList(newTasks);
-
-      const event = new MouseEvent('dblckick');
-      const parent  = document.getElementById(id);
-      const task = parent.firstElementChild;
-      
-      task.dispatchEvent(event);
-      startEditing(event);
-    }
-
-    addAndFocus();
+  
+  const toggleAdding = (): void => {
+    setAdding(!isAdding);
   }
   
   return(
@@ -123,6 +103,9 @@ const Todo: React.FC <TodoProps> = ({
             handleDrag={() => setDragFromTodo(id)}
             handleDrop={handleDrop}
             setNewTodosList={setNewTodosList}
+            isAdding={isAdding}
+            toggleAdding={toggleAdding}
+            // onNewTask={(title) => addNewTask(title, id)}
           />
         </Droppable>
         {/* <AddForm
@@ -130,11 +113,14 @@ const Todo: React.FC <TodoProps> = ({
           handleAdding={(title) => addNewTask(title, id)}
           className="tasks-form"
         /> */}
-        <AddButton
-          className="tasks-addButton" 
-          text='+ Add new task'
-          handleClick={() => addNewTask('', id)}
-        />
+        {
+          !isAdding &&
+            <AddButton
+              className="tasks-addButton" 
+              text='+ Add new task'
+              handleClick={toggleAdding}
+            />
+        }
       </li> 
     </TodoContext.Provider>
   )
