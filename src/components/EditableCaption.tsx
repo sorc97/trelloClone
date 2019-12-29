@@ -1,21 +1,31 @@
 import React from 'react';
-import withToggle from './ToggleHOC';
+import withEdditable from './EditableHOC';
 
 interface EditableCaptionProps {
-  caption: string,
-  toggle: () => void,
-  toggleStatus: string
+  title: string,
+  captionRole: string,
+  className?: string,
+  onStartEdit?: (e: React.MouseEvent) => void,
+  onEndEdit?: (e: React.FocusEvent) => void,
 }
 
 const EditableCaption: React.FC <EditableCaptionProps> = ({
-  caption, toggleStatus, toggle
-}) => {
-  return(
-    <div className='editableCaption'>
-        {
-          // toggleStatus ? 
-          // <h1>{caption}</h1>: 
-        }
-    </div>
-  )
-}
+  title, className, captionRole, onStartEdit, onEndEdit
+}) => 
+  (captionRole === 'main') ? 
+    <h1 
+      className={className}
+      onClick={onStartEdit}
+      onBlur={onEndEdit}
+    >
+      {title}
+    </h1> :
+    <h2
+      className={className}
+      onClick={onStartEdit}
+      onBlur={onEndEdit}
+    >
+      {title}
+    </h2>
+
+export default withEdditable(EditableCaption);

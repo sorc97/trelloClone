@@ -2,13 +2,15 @@ import React, { FormEvent, useState, useRef, useEffect } from 'react';
 import './stylesheets/Composer.scss';
 
 interface ComposerProps {
+  submitText: string,
+  cancelText: string,
+  placeholder: string,
   onClose: () => void,
   handleSubmit: (title: string) => void,
-  placeholder: string
 }
 
 const Composer: React.FC <ComposerProps> = ({
-  onClose, handleSubmit, placeholder
+  onClose, handleSubmit, placeholder, submitText, cancelText
 }) => {
 
   const [textValue, setTextValue] = useState('');
@@ -53,7 +55,6 @@ const Composer: React.FC <ComposerProps> = ({
       dataSubmit();
       e.preventDefault();
     }
-    console.log(e.key)
   }
 
   const dataSubmit = () => {
@@ -83,13 +84,13 @@ const Composer: React.FC <ComposerProps> = ({
       ></textarea>
       <div className='composer-btnWrapper'>
         <button type='submit' className='composer-submit'>
-          Add New Task
+          {submitText}
         </button>
         <button 
           className="composer-cancel"
           onClick={onClose}
         >
-          X
+          {cancelText}
         </button>
       </div>
     </form>

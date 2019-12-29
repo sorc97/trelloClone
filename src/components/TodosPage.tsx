@@ -2,13 +2,14 @@ import React, { useContext, useState } from 'react';
 import TodosList from './TodosList';
 import AddForm from './AddForm';
 import Basket from './Basket';
+import EditableCaption from './EditableCaption';
 import { IBoard, ITodoList, MatchParams } from '../interfaces';
 import { v4 } from 'uuid';
 import { BoardsContext } from './context/BoardsContext';
-import './stylesheets/TodosPage.scss';
 import { findElementById } from '../helpers/array-helpers';
 import { match } from 'react-router-dom';
 import { TodosPageContext } from './context/TodosPageContext';
+import './stylesheets/TodosPage.scss';
 
 interface TodosPageProps {
   match: match<MatchParams>
@@ -66,12 +67,29 @@ const TodosPage: React.FC <TodosPageProps> = ({match}) => {
     }
     setNewBoards(newTodosList);
   }
+
+  const editBoard = (newTitle: string) => {
+    const newBoardsList: IBoard[] = boards.map(board => {
+      if(board.id === boardId) {
+        board.title = newTitle;
+      }
+      
+      return board;
+    })
+    
+    setBoards(newBoardsList);
+  }
   
   return(
     <TodosPageContext.Provider value={{setDragFromTodo}}>
       <main className='todos'>
         <div className="todos-header">
-          <h1>{currentBoard.title}</h1>
+          <EditableCaption
+            title={currentBoard.title}
+            captionRole="main"
+            className="todos-boardCaption"
+            handleEditingEnd={editBoard}
+          />
           <AddForm
             placeholder="Add new Todo"
             handleAdding={addNewTodo}

@@ -6,11 +6,11 @@ import {v4} from 'uuid'
 
 interface TasksListProps {
   tasks: ITask[],
+  isAdding: boolean,
   handleDrag?: () => void,
   handleDrop?: (taskId: string, targetTaskId?: string) => void,
   setNewTodosList?: (newTasks: ITask[]) => void,
-  isAdding: boolean,
-  toggleAdding: () => void
+  toggleAdding?: () => void
 }
 
 const TasksList: React.FC <TasksListProps> = ({
@@ -60,6 +60,8 @@ const TasksList: React.FC <TasksListProps> = ({
       {
         isAdding &&
           <Composer
+            submitText='Add new Task'
+            cancelText='X'
             onClose={toggleAdding}
             handleSubmit={addNewTask}
             placeholder="Enter task"

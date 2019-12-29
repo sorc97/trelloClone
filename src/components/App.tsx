@@ -5,12 +5,13 @@ import { Route, Switch } from 'react-router-dom';
 import { BoardsProvider } from './context/BoardsContext';
 import './stylesheets/style.scss';
 
-const App: React.FunctionComponent = () => 
+const App: React.FunctionComponent = () =>
   <BoardsProvider>
     <Switch>
       <Route exact path='/' component={BoardsPage}/>
       <Route path='/todos/:id' component={TodosPage}/>
     </Switch>
   </BoardsProvider>
+
 
 export default App;

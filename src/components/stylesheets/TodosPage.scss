@@ -3,6 +3,20 @@
 .todos {
   height: 100%;
   width: auto;
+
+  &-boardCaption {
+    color: $main-text-color;
+    background-color: #edf5fc;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      // background-color: #edf5fc94;
+      background-color: rgb(237, 237, 237);
+    }
+  }
 }
 
 .todos-header {

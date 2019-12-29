@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {v4} from 'uuid'
 import { ITask, ITodo, ITodoList } from '../interfaces';
 import { findElementById, insert } from '../helpers/array-helpers'

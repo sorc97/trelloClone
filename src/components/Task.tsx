@@ -1,7 +1,7 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import './stylesheets/Task.scss';
 import Draggable from './Dnd/Draggable/Draggable';
-import { TodoContext } from './context/TodoContext';
+import EditableTask from './EditableTask';
 
 type TaskProps = {
   id?: string,
@@ -16,8 +16,6 @@ const Task: React.FC<TaskProps> = ({
   title, isDone, id, handleDrag, handleDrop, onEditTask
 }) => {
 
-  const {startEditing, endEditing} = useContext(TodoContext);
-  
   return(
     <Draggable 
       id={id} 
@@ -25,20 +23,13 @@ const Task: React.FC<TaskProps> = ({
       handleDrag={handleDrag}
       handleDrop={handleDrop}
     >
-      <li 
-        onDoubleClick={startEditing}
-        onBlur={(e) => 
-          endEditing(
-            e, (title) => onEditTask(title, id)
-          )
-        }
+      <EditableTask
+        title={title}
         className='tasks-item'
-      >
-        {title}
-      </li>
+        handleEditingEnd={(title) => onEditTask(title, id)}
+      />
     </Draggable>
   )
 }
-
 
 export default Task;
