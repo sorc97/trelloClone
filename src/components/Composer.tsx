@@ -9,7 +9,7 @@ interface ComposerProps {
   handleSubmit: (title: string) => void,
 }
 
-const Composer: React.FC <ComposerProps> = ({
+const Composer: React.FC<ComposerProps> = ({
   onClose, handleSubmit, placeholder, submitText, cancelText
 }) => {
 
@@ -18,17 +18,17 @@ const Composer: React.FC <ComposerProps> = ({
 
   const handleClose = (e: MouseEvent) => {
     let target = e.target as HTMLElement;
-    if(!target.closest('.composer')) {
+    if (!target.closest('.composer')) {
       onClose();
     }
     console.log('click');
   }
 
   useEffect(() => {
-    window.addEventListener('click', handleClose)
+    window.addEventListener('mousedown', handleClose)
     console.log('MOUNT');
     return () => {
-      window.removeEventListener('click', handleClose)
+      window.removeEventListener('mousedown', handleClose)
       console.log('UNMOUNT')
     }
   }, []);
@@ -51,18 +51,18 @@ const Composer: React.FC <ComposerProps> = ({
   }
 
   const textareaSubmit = (e: React.KeyboardEvent) => {
-    if(e.key === 'Enter') {
+    if (e.key === 'Enter') {
       dataSubmit();
       e.preventDefault();
     }
   }
 
   const dataSubmit = () => {
-    if(textValue === '') {
+    if (textValue === '') {
       textInput.current.focus();
       return;
     }
-    
+
     handleSubmit(textValue);
 
     textInput.current.focus();
@@ -70,9 +70,9 @@ const Composer: React.FC <ComposerProps> = ({
     setTextValue('');
   }
 
-  return(
+  return (
     <form onSubmit={formSubmit} className="composer">
-      <textarea 
+      <textarea
         autoFocus
         rows={3}
         ref={textInput}
@@ -86,7 +86,7 @@ const Composer: React.FC <ComposerProps> = ({
         <button type='submit' className='composer-submit'>
           {submitText}
         </button>
-        <button 
+        <button
           className="composer-cancel"
           onClick={onClose}
         >
@@ -95,6 +95,6 @@ const Composer: React.FC <ComposerProps> = ({
       </div>
     </form>
   )
-} 
+}
 
 export default Composer;

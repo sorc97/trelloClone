@@ -4,16 +4,15 @@ interface WithEdditableProps {
   handleEditingEnd: (title: string) => void,
 }
 
-export const withEdditable = <P extends object>(PassedComponent: React.ComponentType<P>) => 
+export const withEdditable = <P extends object>(PassedComponent: React.ComponentType<P>) =>
   class WithEdditable extends React.Component<P & WithEdditableProps> {
 
     // Start of element editing
-    startEditing = (e: React.MouseEvent|MouseEvent): void => {
+    startEditing = (e: React.MouseEvent | MouseEvent): void => {
       const target = e.target as HTMLElement;
       const parent = target.parentElement;
-      console.log('Start Editing');
 
-      if(parent.hasAttribute('draggable')) {
+      if (parent.hasAttribute('draggable')) {
         parent.setAttribute('draggable', 'false');
       }
 
@@ -22,7 +21,7 @@ export const withEdditable = <P extends object>(PassedComponent: React.Component
       target.focus();
 
       target.addEventListener('keypress', (e) => {
-        if(e.code === "Enter") {
+        if (e.code === "Enter") {
           target.blur();
           e.preventDefault();
         }
@@ -31,7 +30,7 @@ export const withEdditable = <P extends object>(PassedComponent: React.Component
 
     // End of element editing
     endEditing = (
-      e: React.FocusEvent, 
+      e: React.FocusEvent,
       handleEditing: (title: string) => void
     ): void => {
 
@@ -39,12 +38,12 @@ export const withEdditable = <P extends object>(PassedComponent: React.Component
       const newTitle = target.textContent;
       const parent = target.parentElement;
 
-      if(newTitle === '') {
+      if (newTitle === '') {
         target.focus();
         return;
-      } 
+      }
 
-      if(parent.hasAttribute('draggable')) {
+      if (parent.hasAttribute('draggable')) {
         parent.setAttribute('draggable', 'true');
       }
 
@@ -54,17 +53,17 @@ export const withEdditable = <P extends object>(PassedComponent: React.Component
     }
 
     render() {
-      return(
+      return (
         <PassedComponent
           onStartEdit={this.startEditing}
           onEndEdit={
-            (e: React.FocusEvent) => 
+            (e: React.FocusEvent) =>
               this.endEditing(e, this.props.handleEditingEnd)
           }
           {...this.props}
         />
       )
     }
-  } 
+  }
 
 export default withEdditable;

@@ -1,4 +1,4 @@
-import { RouteComponentProps, match } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 
 interface InitialFields {
   title: string,
@@ -8,12 +8,9 @@ interface InitialFields {
 export interface IBoard extends InitialFields {
   date: Date,
   todos: ITodoList
-  // todos?: Array<ITodo>
-  // todosList?: Array<ITodo>
 }
 
 export interface ITodo extends InitialFields {
-  // boardId: string,
   tasks: Array<ITask>
 }
 
@@ -23,7 +20,7 @@ export interface ITodoList {
 
 export interface ITask extends InitialFields {
   isDone: boolean,
-  todoId?: string
+  todoId?: string  //Remove?
 }
 
 export interface IAction {
@@ -41,7 +38,6 @@ export interface IPayloadData {
 
 export type AppState = {
   boardsList: Array<IBoard>,
-  // activeTodos: Array<ITodo>
 }
 
 export type BoardsState = Array<IBoard>;

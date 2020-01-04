@@ -1,72 +1,79 @@
 import React, { useContext, useState } from 'react';
-import {v4} from 'uuid';
-import { ITask } from '../interfaces';
 import Droppable from './Dnd/Droppable/Droppable';
 import TasksList from './TasksList';
 import AddButton from './AddButton';
-import { TodosPageContext } from './context/TodosPageContext';
 import EditableCaption from './EditableCaption';
+import { ITask } from '../interfaces';
+import { TodosPageContext } from './context/TodosPageContext';
+import './stylesheets/Todo.scss';
 
 interface TodoProps {
-  title: string, 
+  title: string,
   id: string,
   tasks: Array<ITask>,
   handleDrop?: (taskId: string, targetTaskId?: string) => void,
   onEditTodoTitle?: (title: string) => void,
-  setNewTodosList?: (newTasks: ITask[]) => void
+  setNewTasks?: (newTasks: ITask[]) => void,
+  onRemoveTodo: () => void
 }
 
 type TodoState = boolean;
 
-const Todo: React.FC <TodoProps> = ({
-  title, 
-  id, 
-  tasks, 
-  handleDrop, 
+const Todo: React.FC<TodoProps> = ({
+  title,
+  id,
+  tasks,
+  handleDrop,
   onEditTodoTitle,
-  setNewTodosList
+  setNewTasks,
+  onRemoveTodo
 }) => {
 
   const { setDragFromTodo } = useContext(TodosPageContext);
-  const [ isAdding, setAdding ] = useState<TodoState>(false);
-  
+  const [isAdding, setAdding] = useState<TodoState>(false);
+
   const toggleAdding = (): void => {
     setAdding(!isAdding);
   }
-  
-  return(
-      <li className="todos-item">
-        <div className="tasks-header">
-          <EditableCaption
-            handleEditingEnd={onEditTodoTitle}
-            className='tasks-caption'
-            title={title}
-            captionRole='h2'
-          />
-        </div>
-        <Droppable 
-          id={id} 
-          className="droppable-wrapper"
+
+  return (
+    <li className="todos-item">
+      <div className="tasks-header">
+        <EditableCaption
+          handleEditingEnd={onEditTodoTitle}
+          className='tasks-caption'
+          title={title}
+          captionRole='h2'
+        />
+        <button 
+          onClick={onRemoveTodo}
+          className="tasks-removeTodo">
+          &times;
+        </button>
+      </div>
+      <Droppable
+        id={id}
+        handleDrop={handleDrop}
+        className="droppable-wrapper"
+      >
+        <TasksList
+          tasks={tasks}
+          handleDrag={() => setDragFromTodo(id)}
           handleDrop={handleDrop}
-        >
-          <TasksList 
-            tasks={tasks}
-            handleDrag={() => setDragFromTodo(id)}
-            handleDrop={handleDrop}
-            setNewTodosList={setNewTodosList}
-            isAdding={isAdding}
-            toggleAdding={toggleAdding}
-          />
-        </Droppable>
-        {
-          !isAdding &&
-            <AddButton
-              className="tasks-addButton" 
-              text='+ Add new task'
-              handleClick={toggleAdding}
-            />
-        }
-      </li> 
+          setNewTasks={setNewTasks}
+          isAdding={isAdding}
+          toggleAdding={toggleAdding}
+        />
+      </Droppable>
+      {
+        !isAdding &&
+        <AddButton
+          className="tasks-addButton"
+          text='+ Add new task'
+          handleClick={toggleAdding}
+        />
+      }
+    </li>
   )
 }
 

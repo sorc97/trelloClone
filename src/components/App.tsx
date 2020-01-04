@@ -8,8 +8,8 @@ import './stylesheets/style.scss';
 const App: React.FunctionComponent = () =>
   <BoardsProvider>
     <Switch>
-      <Route exact path='/' component={BoardsPage}/>
-      <Route path='/todos/:id' component={TodosPage}/>
+      <Route exact path='/' component={BoardsPage} />
+      <Route path='/board/:id' component={TodosPage} />
     </Switch>
   </BoardsProvider>
 

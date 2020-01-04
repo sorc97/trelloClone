@@ -10,11 +10,15 @@
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s ease;
 
     &:hover {
       // background-color: #edf5fc94;
       background-color: rgb(237, 237, 237);
+    }
+
+    &.editing {
+      background-color: #fff;
     }
   }
 }
@@ -28,7 +32,6 @@
 }
 
 .todos-list {
-  // display: ;
   height: 90%;
   overflow-x: auto;
   overflow-y: hidden;

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 
 interface AddFormProps {
   handleAdding: (title: string) => void,
@@ -7,12 +7,12 @@ interface AddFormProps {
   className?: string
 }
 
-const AddForm: React.FC <AddFormProps> = ({
+const AddForm: React.FC<AddFormProps> = ({
   handleAdding, placeholder, button, className
 }) => {
-  // let textRef: React.RefObject <HTMLInputElement> = React.createRef();
-  let textRef: React.RefObject <HTMLInputElement> = useRef(null);
-
+  // Ref creation
+  let textRef: React.RefObject<HTMLInputElement> = useRef(null);
+  // Component's state
   const [value, setValue] = useState<string>('');
 
   const handleChange = (e: React.FormEvent): void => {
@@ -27,19 +27,19 @@ const AddForm: React.FC <AddFormProps> = ({
     textRef.current.focus();
   }
 
-  return(
+  return (
     <form className={className} onSubmit={submit}>
-      <input 
-        type='text' 
+      <input
+        type='text'
         placeholder={placeholder}
         value={value}
-        ref={textRef} 
+        ref={textRef}
         onChange={handleChange}
         required
       />
-        {
-          button && <input type='submit' value={button}/> 
-        }
+      {
+        button && <input type='submit' value={button} />
+      }
     </form>
   )
 }

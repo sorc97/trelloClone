@@ -1,35 +1,51 @@
-import React from 'react'
-import { ITask } from '../interfaces'
+import React, { useRef, useEffect } from 'react'
 import Task from './Task'
 import Composer from './Composer'
-import {v4} from 'uuid'
+import { v4 } from 'uuid'
+import { ITask } from '../interfaces'
+import './stylesheets/TasksList.scss'
 
 interface TasksListProps {
   tasks: ITask[],
   isAdding: boolean,
   handleDrag?: () => void,
   handleDrop?: (taskId: string, targetTaskId?: string) => void,
-  setNewTodosList?: (newTasks: ITask[]) => void,
+  setNewTasks?: (newTasks: ITask[]) => void,
   toggleAdding?: () => void
 }
 
-const TasksList: React.FC <TasksListProps> = ({
-  tasks, handleDrag, handleDrop, setNewTodosList, isAdding, toggleAdding
+const TasksList: React.FC<TasksListProps> = ({
+  tasks, handleDrag, handleDrop, setNewTasks, isAdding, toggleAdding
 }) => {
 
-  const editTask = ( newTitle: string, taskId: string ): void => {
+  const list: React.RefObject<HTMLUListElement> = useRef(null);
+
+  const scrollDown = (): void => {
+    let elem = list.current;
+    if (elem.scrollHeight - elem.clientHeight) {
+      elem.scrollTo(0, elem.scrollHeight);
+    }
+  }
+
+  useEffect(() => {
+    if (isAdding) {
+      scrollDown();
+    }
+  }, [tasks, isAdding]);
+
+  const editTask = (newTitle: string, taskId: string): void => {
     const newTasksList = tasks.map(task => {
-      if(task.id === taskId) {
+      if (task.id === taskId) {
         task.title = newTitle;
       }
-      
+
       return task;
     })
 
-    setNewTodosList(newTasksList);
+    setNewTasks(newTasksList);
   }
 
-  // Newa task creating
+  // New task creation
   const addNewTask = (title: string): void => {
     const id = v4();
     const newTasks: ITask[] = [
@@ -39,15 +55,15 @@ const TasksList: React.FC <TasksListProps> = ({
         id,
         isDone: false
       }
-    ] 
+    ]
 
-    setNewTodosList(newTasks);
+    setNewTasks(newTasks);
   }
 
   return (
-    <ul className="tasks-list">
+    <ul className="tasks-list" ref={list}>
       {
-        tasks.map(task => 
+        tasks.map(task =>
           <Task
             key={task.id}
             {...task}
@@ -59,13 +75,13 @@ const TasksList: React.FC <TasksListProps> = ({
       }
       {
         isAdding &&
-          <Composer
-            submitText='Add new Task'
-            cancelText='X'
-            onClose={toggleAdding}
-            handleSubmit={addNewTask}
-            placeholder="Enter task"
-          />
+        <Composer
+          submitText='Add new Task'
+          cancelText='X'
+          placeholder="Enter task"
+          onClose={toggleAdding}
+          handleSubmit={addNewTask}
+        />
       }
     </ul>
   )

@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { v4 } from 'uuid';
+import { IBoard } from '../interfaces';
 import AddForm from './AddForm'
 import BoardsList from './BoardsList';
-import { IBoard } from '../interfaces';
 import { BoardsContext } from './context/BoardsContext';
 import './stylesheets/BoardsPage.scss';
 
@@ -10,28 +10,33 @@ const BoardsPage: React.FC = () => {
   const [boards, setBoards] = useContext(BoardsContext);
 
   const addNewBoard = (title: string): void => {
-    const newBoard: IBoard = { 
+    const newBoard: IBoard = {
       title,
       id: v4(),
       date: new Date,
       todos: {}
     }
-    setBoards([...boards, newBoard]);
+
+    setBoards(prevState => [...prevState, newBoard]);
   }
 
-  useEffect(() => {
-    console.log("PROVIDER", boards);
-  }, []);
-  
+  const removeBoard = (id: string): void => {
+    const newBoardsList = boards.filter(board => board.id !== id);
+    setBoards(newBoardsList);
+  }
+
   return (
     <main className='boards'>
-      <AddForm 
+      <AddForm
         handleAdding={addNewBoard}
         placeholder="Enter the name of board"
         button="+"
         className="boards-form"
       />
-      <BoardsList boards={boards}/>
+      <BoardsList 
+        boards={boards} 
+        onRemove={removeBoard}
+      />
     </main>
   )
 }

@@ -4,12 +4,12 @@ import Draggable from './Dnd/Draggable/Draggable';
 import EditableTask from './EditableTask';
 
 type TaskProps = {
-  id?: string,
   title: string,
-  isDone: boolean,
+  id: string,
+  isDone?: boolean,
   handleDrag?: () => void,
   handleDrop?: (taskId: string, targetTaskId?: string) => void,
-  onEditTask?: (title: string, id: string) => void
+  onEditTask?: (title: string, id: string) => void,
 }
 
 const Task: React.FC<TaskProps> = ({ 
@@ -25,7 +25,7 @@ const Task: React.FC<TaskProps> = ({
     >
       <EditableTask
         title={title}
-        className='tasks-item'
+        className= {isDone ? 'tasks-item done': 'tasks-item'} 
         handleEditingEnd={(title) => onEditTask(title, id)}
       />
     </Draggable>

@@ -3,16 +3,16 @@ import Droppable from './Dnd/Droppable/Droppable'
 import './stylesheets/Basket.scss'
 
 interface BasketProps {
-  removeTask: (taskId: string) => void,
+  onRemove: (taskId: string) => void,
   basketText: string
 }
 
-const Basket: React.FC <BasketProps> = ({removeTask, basketText}) => {
-  return(
+const Basket: React.FC<BasketProps> = ({ onRemove, basketText }) => {
+  return (
     <Droppable
       id="basket"
-      className='basket-wrapper'
-      handleDrop={removeTask}
+      className="basket-wrapper"
+      handleDrop={onRemove}
     >
       <div className="basket">
         {basketText}

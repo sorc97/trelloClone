@@ -1,69 +1,68 @@
 import React from 'react';
-import {v4} from 'uuid'
+import Todo from './Todo';
 import { ITask, ITodo, ITodoList } from '../interfaces';
-import { findElementById, insert } from '../helpers/array-helpers'
-import Todo from './Todo'
-import './stylesheets/TodosList.scss';
+import { findElementById, insert } from '../helpers/array-helpers';
 
 interface TodosListProps {
   currentTodos: ITodoList,
-  setNewBoards: (newTodo: ITodoList) => void,
+  setNewTodos: (newTodo: ITodoList) => void,
   dragFromTodo?: string
 }
 
 // TodosList component
-const TodosList: React.FC <TodosListProps> = ({ 
-  setNewBoards, currentTodos, dragFromTodo
+const TodosList: React.FC<TodosListProps> = ({
+  setNewTodos, currentTodos, dragFromTodo
 }) => {
 
+  const todosArray = Object.values(currentTodos);
   // 
-  const setNewTodosList = (
+  const setNewTasks = (
     todoId: string, newTasks: ITask[]
   ): void => {
-    const parentTodo = {...currentTodos[todoId]};
+    const parentTodo = { ...currentTodos[todoId] };
     parentTodo.tasks = newTasks;
-    
+
     const newTodos = {
       ...currentTodos,
       [todoId]: parentTodo
     }
 
-    setNewBoards(newTodos);
+    setNewTodos(newTodos);
   }
 
   // Task's drop handling
-  const onDragTask = (
+  const onDropTask = (
     taskId: string, newTodoId: string, targetTaskId?: string
   ): void => {
 
     const currentTodoId = dragFromTodo;
     // Exit if drop on the same todo 
-    if( !targetTaskId && (currentTodoId === newTodoId) ) return;
-    
-    const currentTodo: ITodo = currentTodos[currentTodoId];
-    const currentTask: ITask = findElementById(taskId, currentTodo.tasks)
-    const newTodo: ITodo = currentTodos[newTodoId];
-    
+    if (!targetTaskId && (currentTodoId === newTodoId)) return;
+
+    const currentTodo: ITodo = { ...currentTodos[currentTodoId] };
+    const newTodo: ITodo = { ...currentTodos[newTodoId] };
+    const currentTask: ITask = findElementById(taskId, currentTodo.tasks);
+
     // Sort if dropped on another task
-    if(targetTaskId) {
+    if (targetTaskId) {
       let targetTasksList: ITask[] = newTodo.tasks;
       const targetTask: ITask = findElementById(targetTaskId, targetTasksList);
       const targetIndex: number = targetTasksList.indexOf(targetTask);
       //Remove task if same todo
-      if(currentTodoId === newTodoId) {
+      if (currentTodoId === newTodoId) {
         targetTasksList = targetTasksList.filter(todo => todo.id !== taskId);
       }
       //Tasks sorting
       const sortedTasksList: ITask[] = insert(targetTasksList, targetIndex, currentTask);
       newTodo.tasks = sortedTasksList;
       //State changing if dropped on the same todo
-      if(currentTodoId === newTodoId) { 
+      if (currentTodoId === newTodoId) {
         const newTodosList: ITodoList = {
           ...currentTodos,
           [newTodoId]: newTodo
-        } 
+        }
 
-        setNewBoards(newTodosList);
+        setNewTodos(newTodosList);
         return;
       }
 
@@ -81,37 +80,45 @@ const TodosList: React.FC <TodosListProps> = ({
       [newTodoId]: newTodo,
       [currentTodoId]: currentTodo
     }
-    setNewBoards(newTodosList);
+    setNewTodos(newTodosList);
   }
 
   // Todo title editing
   const editTodoTitle = (newTitle: string, todoId: string): void => {
-    const editingTodo = {...currentTodos[todoId]};
+    const editingTodo = { ...currentTodos[todoId] };
     editingTodo.title = newTitle;
-    
+
     const newTodosList: ITodoList = {
       ...currentTodos,
-      [todoId]: editingTodo 
+      [todoId]: editingTodo
     }
 
-    setNewBoards(newTodosList); 
+    setNewTodos(newTodosList);
   }
 
-  return(
-    (!Object.values(currentTodos).length) ?
-      <p>No todos</p> :
+  const removeTodo = (id: string) => {
+    const newTodosList = { ...currentTodos };
+    delete newTodosList[id];
+
+    setNewTodos(newTodosList);
+  }
+
+  return (
+    (!todosArray.length) ?
+      <p className="todos-empty">No todos</p> :
       <ul className="todos-list">
         {
-          Object.values(currentTodos).map(todo =>
-            <Todo 
-              key={todo.id} 
+          todosArray.map(todo =>
+            <Todo
+              key={todo.id}
               {...todo}
               handleDrop={
-                (taskId, targetTaskId?) => 
-                  onDragTask(taskId, todo.id, targetTaskId)
+                (taskId, targetTaskId?) =>
+                  onDropTask(taskId, todo.id, targetTaskId)
               }
               onEditTodoTitle={(title) => editTodoTitle(title, todo.id)}
-              setNewTodosList={(newTasks) => setNewTodosList(todo.id, newTasks)}
+              setNewTasks={(newTasks) => setNewTasks(todo.id, newTasks)}
+              onRemoveTodo={() => removeTodo(todo.id)}
             />
           )
         }
