@@ -1,5 +1,5 @@
 import React, { FormEvent, useState, useRef, useEffect } from 'react';
-import './stylesheets/Composer.scss';
+import './Composer.scss';
 
 interface ComposerProps {
   submitText: string,

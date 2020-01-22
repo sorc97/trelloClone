@@ -1,7 +1,7 @@
 import React from 'react'
-import { IBoard } from '../interfaces'
+import { IBoard } from '../../interfaces'
 import { Link } from 'react-router-dom'
-import './stylesheets/BoardsList.scss'
+import './BoardsList.scss'
 
 type BoardsListProps = {
   boards: Array<IBoard>,

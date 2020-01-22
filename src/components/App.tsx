@@ -1,9 +1,9 @@
 import React from 'react';
-import BoardsPage from './BoardsPage';
-import TodosPage from './TodosPage';
-import { Route, Switch } from 'react-router-dom';
+import BoardsPage from './boards/BoardsPage';
+import TodosPage from './todos/TodosPage';
 import { BoardsProvider } from './context/BoardsContext';
-import './stylesheets/style.scss';
+import { Route, Switch } from 'react-router-dom';
+import './App.scss';
 
 const App: React.FunctionComponent = () =>
   <BoardsProvider>

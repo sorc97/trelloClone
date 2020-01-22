@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
-import Droppable from './Dnd/Droppable/Droppable';
-import TasksList from './TasksList';
-import AddButton from './AddButton';
-import EditableCaption from './EditableCaption';
-import { ITask } from '../interfaces';
-import { TodosPageContext } from './context/TodosPageContext';
-import './stylesheets/Todo.scss';
+import Droppable from '../dnd/Droppable';
+import TasksList from '../tasks/TasksList';
+import AddButton from '../common/AddButton';
+import EditableCaption from '../common/EditableCaption';
+import { ITask } from '../../interfaces';
+import { TodosPageContext } from '../context/TodosPageContext';
+import './Todo.scss';
 
 interface TodoProps {
   title: string,

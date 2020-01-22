@@ -1,6 +1,6 @@
 import React from 'react'
-import Droppable from './Dnd/Droppable/Droppable'
-import './stylesheets/Basket.scss'
+import Droppable from '../dnd/Droppable'
+import './Basket.scss'
 
 interface BasketProps {
   onRemove: (taskId: string) => void,

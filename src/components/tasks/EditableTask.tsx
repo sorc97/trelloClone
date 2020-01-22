@@ -1,5 +1,5 @@
 import React from 'react';
-import withEdditable from './EditableHOC';
+import withEdditable from '../common/EditableHOC';
 
 interface EditableTaskProps {
   title: string,

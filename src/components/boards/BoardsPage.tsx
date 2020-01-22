@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { v4 } from 'uuid';
-import { IBoard } from '../interfaces';
-import AddForm from './AddForm'
+import { IBoard } from '../../interfaces';
+import AddForm from '../common/AddForm';
 import BoardsList from './BoardsList';
-import { BoardsContext } from './context/BoardsContext';
-import './stylesheets/BoardsPage.scss';
+import { BoardsContext } from '../context/BoardsContext';
+import './BoardsPage.scss';
 
 const BoardsPage: React.FC = () => {
   const [boards, setBoards] = useContext(BoardsContext);

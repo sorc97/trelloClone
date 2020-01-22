@@ -1,7 +1,7 @@
 import React from 'react';
-import './stylesheets/Task.scss';
-import Draggable from './Dnd/Draggable/Draggable';
+import Draggable from '../dnd/Draggable';
 import EditableTask from './EditableTask';
+import './Task.scss';
 
 type TaskProps = {
   title: string,

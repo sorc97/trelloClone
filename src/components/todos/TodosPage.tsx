@@ -1,16 +1,15 @@
 import React, { useContext, useState } from 'react';
-import TodosList from './TodosList';
-import AddForm from './AddForm';
-import Basket from './Basket';
-import EditableCaption from './EditableCaption';
-import Composer from './Composer';
-import { IBoard, ITodoList, MatchParams } from '../interfaces';
 import { v4 } from 'uuid';
 import { match } from 'react-router-dom';
-import { findElementById } from '../helpers/array-helpers';
-import { BoardsContext } from './context/BoardsContext';
-import { TodosPageContext } from './context/TodosPageContext';
-import './stylesheets/TodosPage.scss';
+import TodosList from './TodosList';
+import AddForm from '../common/AddForm';
+import Basket from '../common/Basket';
+import EditableCaption from '../common/EditableCaption';
+import { IBoard, ITodoList, MatchParams } from '../../interfaces';
+import { findElementById } from '../../helpers/array-helpers';
+import { BoardsContext } from '../context/BoardsContext';
+import { TodosPageContext } from '../context/TodosPageContext';
+import './TodosPage.scss';
 
 interface TodosPageProps {
   match: match<MatchParams>

@@ -1,9 +1,9 @@
-import React, { useRef, useEffect } from 'react'
-import Task from './Task'
-import Composer from './Composer'
-import { v4 } from 'uuid'
-import { ITask } from '../interfaces'
-import './stylesheets/TasksList.scss'
+import React, { useRef, useEffect } from 'react';
+import { v4 } from 'uuid';
+import Task from './Task';
+import Composer from '../common/Composer';
+import { ITask } from '../../interfaces';
+import './TasksList.scss';
 
 interface TasksListProps {
   tasks: ITask[],
