@@ -3,6 +3,7 @@ import TodosList from './TodosList';
 import AddForm from './AddForm';
 import Basket from './Basket';
 import EditableCaption from './EditableCaption';
+import Composer from './Composer';
 import { IBoard, ITodoList, MatchParams } from '../interfaces';
 import { v4 } from 'uuid';
 import { match } from 'react-router-dom';
@@ -83,7 +84,7 @@ const TodosPage: React.FC<TodosPageProps> = ({ match }) => {
   return (
     <TodosPageContext.Provider value={{ setDragFromTodo }}>
       <main className='todos'>
-        <div className="todos-header">
+        <section className="todos-header">
           <EditableCaption
             title={currentBoard.title}
             captionRole="main"
@@ -93,18 +94,22 @@ const TodosPage: React.FC<TodosPageProps> = ({ match }) => {
           <AddForm
             placeholder="Add new Todo"
             handleAdding={addNewTodo}
-            className="todo-form"
+            className="todos-form"
+            button="add"
           />
           <Basket
             onRemove={(taskId) => removeTask(taskId, dragFromTodo)}
             basketText="Drop task here to remove"
           />
-        </div>
-        <TodosList
-          currentTodos={currentTodos}
-          setNewTodos={setNewTodos}
-          dragFromTodo={dragFromTodo}
-        />
+        </section>
+        <section className="todos-section">
+          <TodosList
+            currentTodos={currentTodos}
+            setNewTodos={setNewTodos}
+            dragFromTodo={dragFromTodo}
+          />
+        </section>
+
       </main>
     </TodosPageContext.Provider>
   )

@@ -1,22 +1,24 @@
 @import 'vars';
 
-.boards {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-}
-
 .boards-form {
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
+  min-width: 400px;
   background: white;
   text-align: center;
   padding: 15px;
   border-radius: 10px;
+  border: 2px solid transparent;
+  transition: all .2s ease; 
 
   * {
-    font-size: 1.3rem;
+    font-size: 20px;
     border: none;
+  }
+
+  & > input[type="text"] {
+    flex-grow: 1;
+    text-align: center;
   }
 
   & > input[type="text"]:focus {
@@ -28,5 +30,9 @@
     height: 40px;
     cursor: pointer;
     border-radius: 5px;
+  }
+
+  &:focus-within {
+    border-color: black;
   }
 }

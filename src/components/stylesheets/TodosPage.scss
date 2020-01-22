@@ -3,11 +3,15 @@
 .todos {
   height: 100%;
   width: auto;
+  display: flex;
+  flex-direction: column;
 
   &-boardCaption {
     color: $main-text-color;
-    background-color: #edf5fc;
+    // background-color: #edf5fc;
+    background-color: #d0dfec;
     padding: 10px;
+    margin-right: 20px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease;
@@ -21,21 +25,67 @@
       background-color: #fff;
     }
   }
-}
 
-.todos-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 10%;
-  padding: 10px $main-padding;
-}
+  &-header {
+    display: flex;
+    // justify-content: flex-start;
+    justify-content: space-between;
+    background-color: #edf5fc;
+    align-items: center;
+    flex-wrap: wrap;
+    // height: 10%;
+    padding: 10px $main-padding;
+  }
 
-.todos-list {
-  height: 90%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: $main-padding;
-  white-space: nowrap;
-  // background-color: slategrey;
+  &-form {
+    display: flex;
+    flex-grow: 1;
+    margin-right: 20px;
+
+    & > *{
+      font-size: 16px;
+      transition: all .2s ease;
+    }
+
+    & > [type='text'] {
+      border: none;
+      padding: 10px;
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      // border: 2px solid transparent;
+      border: 2px solid $secondary-color;
+      border-right: none;
+
+      &:focus {
+        outline: none;
+        // border-color: $secondary-color-highlighted;
+        border-color: $prime-color;
+      }
+    }
+
+    & > [type='submit'] {
+      border: none;
+      color: #fff;
+      background-color: $secondary-color;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: $secondary-color-highlighted;
+      }
+
+      &:focus {
+        outline: none;
+        // background-color: $secondary-color-highlighted;
+        background-color: $prime-color;
+      }
+    }
+  }
+
+  &-section {
+    flex-grow: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
 }

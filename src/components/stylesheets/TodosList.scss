@@ -1,0 +1,12 @@
+@import 'vars';
+
+.todos-list {
+  // height: 90%;
+  // flex-grow: 1;
+  // overflow-x: auto;
+  // overflow-y: hidden;
+  padding: $main-padding;
+  white-space: nowrap;
+  height: 100%;
+  // background-color: slategrey;
+}

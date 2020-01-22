@@ -5,12 +5,13 @@ interface ComposerProps {
   submitText: string,
   cancelText: string,
   placeholder: string,
-  onClose: () => void,
   handleSubmit: (title: string) => void,
+  onClose?: () => void,
+  minRows?: number
 }
 
 const Composer: React.FC<ComposerProps> = ({
-  onClose, handleSubmit, placeholder, submitText, cancelText
+  onClose = () => {}, handleSubmit, placeholder, submitText, cancelText, minRows = 3
 }) => {
 
   const [textValue, setTextValue] = useState('');
@@ -74,7 +75,7 @@ const Composer: React.FC<ComposerProps> = ({
     <form onSubmit={formSubmit} className="composer">
       <textarea
         autoFocus
-        rows={3}
+        rows={minRows}
         ref={textInput}
         value={textValue}
         onChange={handleChange}

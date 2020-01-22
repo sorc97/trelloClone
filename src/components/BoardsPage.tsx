@@ -29,7 +29,7 @@ const BoardsPage: React.FC = () => {
     <main className='boards'>
       <AddForm
         handleAdding={addNewBoard}
-        placeholder="Enter the name of board"
+        placeholder="New board name"
         button="+"
         className="boards-form"
       />

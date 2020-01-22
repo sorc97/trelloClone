@@ -2,6 +2,7 @@ import React from 'react';
 import Todo from './Todo';
 import { ITask, ITodo, ITodoList } from '../interfaces';
 import { findElementById, insert } from '../helpers/array-helpers';
+import './stylesheets/TodosList.scss';
 
 interface TodosListProps {
   currentTodos: ITodoList,

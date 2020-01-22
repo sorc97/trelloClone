@@ -37,9 +37,7 @@ const AddForm: React.FC<AddFormProps> = ({
         onChange={handleChange}
         required
       />
-      {
-        button && <input type='submit' value={button} />
-      }
+      {button && <input type='submit' value={button} />}
     </form>
   )
 }
