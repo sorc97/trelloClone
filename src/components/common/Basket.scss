@@ -5,9 +5,9 @@
 
   &.underDrag>.basket {
     // background-color: #607d8b52;
-    background-color: #ff6572c5;
+    // background-color: #ff6572c5;
+    background-color: #ca3b47c5;
     opacity: 0.7;
-    color: white;
     // background-color: rgb(230, 230, 230);
   }
 }
@@ -18,10 +18,10 @@
   align-items: center;
   height: 100%;
   width: 250px;
-  background-color: #fcfcfc;
   // border: 2px dashed #a8a8c9;
   // border: 2px dashed #78d4ff;
-  border: 2px dashed #add7ff;
+  border: 2px dashed $secondary-color;
+  color: $light-text-color;
   // border: 2px dashed #f2675d;
   border-radius: 5px;
   transition: all .2s ease;

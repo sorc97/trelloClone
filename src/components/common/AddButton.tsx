@@ -16,4 +16,9 @@ const AddButton: React.FC <AddButtonProps> = ({
     {text}
   </button>
 
+AddButton.defaultProps = {
+  text: 'Submit',
+  handleClick: () => { }
+}
+
 export default AddButton;

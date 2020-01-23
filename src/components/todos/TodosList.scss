@@ -1,12 +1,26 @@
 @import '../../scss/vars';
 
-.todos-list {
-  // height: 90%;
-  // flex-grow: 1;
-  // overflow-x: auto;
-  // overflow-y: hidden;
-  padding: $main-padding;
-  white-space: nowrap;
-  height: 100%;
-  // background-color: slategrey;
+.todos {
+  &-section {
+    flex-grow: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  &-empty {
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    margin: 0; */
+    font-size: 30px;
+    color: lightslategray;
+  }
+
+  &-list {
+    padding: $main-padding;
+    white-space: nowrap;
+    height: 100%;
+  }
 }

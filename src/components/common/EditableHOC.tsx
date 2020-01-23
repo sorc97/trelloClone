@@ -11,19 +11,19 @@ export const withEdditable = <P extends object>(PassedComponent: React.Component
     startEditing = (e: React.MouseEvent | MouseEvent): void => {
       const target = e.target as HTMLElement;
       const parent = target.parentElement;
-
-      if (parent.hasAttribute('draggable')) {
+      // When element is edited, disable draggable attribute
+      if (parent.hasAttribute('draggable')) { 
         parent.setAttribute('draggable', 'false');
       }
-
+      // Start editing
       target.setAttribute('contenteditable', 'true');
       target.classList.add('editing');
       target.focus();
-
+      // Submit by enter handler 
       target.addEventListener('keypress', (e) => {
         if (e.code === "Enter") {
           target.blur();
-          e.preventDefault();
+          e.preventDefault();  // Prevent break line by enter
         }
       })
     }
@@ -38,16 +38,17 @@ export const withEdditable = <P extends object>(PassedComponent: React.Component
       const newTitle = target.textContent;
       const parent = target.parentElement;
 
-      if (newTitle === '') {
+      if (newTitle === '') {  // When no data in the field, return focus
         target.focus();
         return;
       }
-
+      // If element was draggable, set it back
       if (parent.hasAttribute('draggable')) {
         parent.setAttribute('draggable', 'true');
       }
 
-      handleEditing(newTitle);
+      handleEditing(newTitle);  // Refresh data with new value
+      // End of editing
       target.removeAttribute('contenteditable');
       target.classList.remove('editing');
     }

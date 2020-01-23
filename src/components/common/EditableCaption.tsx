@@ -9,11 +9,11 @@ interface EditableCaptionProps {
   onEndEdit?: (e: React.FocusEvent) => void,
 }
 
-const EditableCaption: React.FC <EditableCaptionProps> = ({
+const EditableCaption: React.FC<EditableCaptionProps> = ({
   title, className, captionRole, onStartEdit, onEndEdit
-}) => 
-  (captionRole === 'main') ? 
-    <h1 
+}) =>
+  (captionRole === 'main') ?
+    <h1
       className={className}
       onClick={onStartEdit}
       onBlur={onEndEdit}
@@ -27,5 +27,12 @@ const EditableCaption: React.FC <EditableCaptionProps> = ({
     >
       {title}
     </h2>
+
+EditableCaption.defaultProps = {
+  title: "Unknown",
+  captionRole: "main",
+  onStartEdit: () => { },
+  onEndEdit: () => { }
+}
 
 export default withEdditable(EditableCaption);

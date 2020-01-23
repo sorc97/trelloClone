@@ -2,9 +2,7 @@ import React, { useContext, useState } from 'react';
 import { v4 } from 'uuid';
 import { match } from 'react-router-dom';
 import TodosList from './TodosList';
-import AddForm from '../common/AddForm';
-import Basket from '../common/Basket';
-import EditableCaption from '../common/EditableCaption';
+import TodosHeader from './TodosHeader';
 import { IBoard, ITodoList, MatchParams } from '../../interfaces';
 import { findElementById } from '../../helpers/array-helpers';
 import { BoardsContext } from '../context/BoardsContext';
@@ -17,8 +15,8 @@ interface TodosPageProps {
 
 type TodosPageState = string;
 
-const TodosPage: React.FC<TodosPageProps> = ({ match }) => {
-  const [boards, setBoards] = useContext(BoardsContext); // Context
+const TodosPage: React.FC<TodosPageProps> = ({ match = {} }) => {
+  const [boards, setBoards] = useContext(BoardsContext); // Get context value
   const [dragFromTodo, setDragTodo] = useState<TodosPageState>("");
 
   const boardId = match.params.id;
@@ -65,6 +63,7 @@ const TodosPage: React.FC<TodosPageProps> = ({ match }) => {
       ...currentTodos,
       [todoId]: todo
     }
+
     setNewTodos(newTodosList);
   }
 
@@ -83,32 +82,17 @@ const TodosPage: React.FC<TodosPageProps> = ({ match }) => {
   return (
     <TodosPageContext.Provider value={{ setDragFromTodo }}>
       <main className='todos'>
-        <section className="todos-header">
-          <EditableCaption
-            title={currentBoard.title}
-            captionRole="main"
-            className="todos-boardCaption"
-            handleEditingEnd={editBoard}
-          />
-          <AddForm
-            placeholder="Add new Todo"
-            handleAdding={addNewTodo}
-            className="todos-form"
-            button="add"
-          />
-          <Basket
-            onRemove={(taskId) => removeTask(taskId, dragFromTodo)}
-            basketText="Drop task here to remove"
-          />
-        </section>
-        <section className="todos-section">
-          <TodosList
-            currentTodos={currentTodos}
-            setNewTodos={setNewTodos}
-            dragFromTodo={dragFromTodo}
-          />
-        </section>
-
+        <TodosHeader
+          currentBoardTitle={currentBoard.title}
+          editBoard={editBoard}
+          addNewTodo={addNewTodo}
+          removeTask={(taskId) => removeTask(taskId, dragFromTodo)}
+        />
+        <TodosList
+          currentTodos={currentTodos}
+          setNewTodos={setNewTodos}
+          dragFromTodo={dragFromTodo}
+        />
       </main>
     </TodosPageContext.Provider>
   )

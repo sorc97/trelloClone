@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react';
 
 interface AddFormProps {
   handleAdding: (title: string) => void,
@@ -14,17 +14,17 @@ const AddForm: React.FC<AddFormProps> = ({
   let textRef: React.RefObject<HTMLInputElement> = useRef(null);
   // Component's state
   const [value, setValue] = useState<string>('');
-
+  
   const handleChange = (e: React.FormEvent): void => {
     const target = e.target as HTMLInputElement;
-    setValue(target.value);
+    setValue(target.value);  // Set current input value as a state value
   }
 
   const submit = (e: React.FormEvent): void => {
     e.preventDefault();
-    handleAdding(value);
-    setValue('');
-    textRef.current.focus();
+    handleAdding(value);  // Reverse data flow with input value
+    setValue('');  // Reset input field
+    textRef.current.focus();  // Focus on the input
   }
 
   return (
@@ -40,6 +40,12 @@ const AddForm: React.FC<AddFormProps> = ({
       {button && <input type='submit' value={button} />}
     </form>
   )
+}
+
+AddForm.defaultProps = {
+  handleAdding: () => {},
+  placeholder: "Input field",
+  className: "add-form"
 }
 
 export default AddForm;

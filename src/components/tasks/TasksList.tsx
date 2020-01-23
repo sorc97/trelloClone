@@ -17,22 +17,25 @@ interface TasksListProps {
 const TasksList: React.FC<TasksListProps> = ({
   tasks, handleDrag, handleDrop, setNewTasks, isAdding, toggleAdding
 }) => {
+  // Access to list DOM element
+  const list: React.RefObject<HTMLUListElement> = useRef(null);  
 
-  const list: React.RefObject<HTMLUListElement> = useRef(null);
-
-  const scrollDown = (): void => {
+  const scrollDown = (): void => { 
     let elem = list.current;
-    if (elem.scrollHeight - elem.clientHeight) {
+    // When element got scroll, sroll down
+    if (elem.scrollHeight - elem.clientHeight) {  
       elem.scrollTo(0, elem.scrollHeight);
     }
   }
 
   useEffect(() => {
-    if (isAdding) {
+    // Scroll down every time, when composer is opened
+    if (isAdding && tasks.length) {
       scrollDown();
     }
   }, [tasks, isAdding]);
 
+  // Task editing
   const editTask = (newTitle: string, taskId: string): void => {
     const newTasksList = tasks.map(task => {
       if (task.id === taskId) {
@@ -52,8 +55,7 @@ const TasksList: React.FC<TasksListProps> = ({
       ...tasks,
       {
         title,
-        id,
-        isDone: false
+        id
       }
     ]
 
@@ -62,19 +64,16 @@ const TasksList: React.FC<TasksListProps> = ({
 
   return (
     <ul className="tasks-list" ref={list}>
-      {
-        tasks.map(task =>
-          <Task
-            key={task.id}
-            {...task}
-            handleDrag={handleDrag}
-            handleDrop={handleDrop}
-            onEditTask={(newTitle) => editTask(newTitle, task.id)}
-          />
-        )
-      }
-      {
-        isAdding &&
+      {tasks.map(task =>
+        <Task
+          key={task.id}
+          {...task}
+          handleDrag={handleDrag}
+          handleDrop={handleDrop}
+          onEditTask={(newTitle) => editTask(newTitle, task.id)}
+        />
+      )}
+      {isAdding &&
         <Composer
           submitText='Add new Task'
           cancelText='X'
@@ -85,6 +84,15 @@ const TasksList: React.FC<TasksListProps> = ({
       }
     </ul>
   )
+}
+
+TasksList.defaultProps = {
+  tasks: [],
+  isAdding: false,
+  handleDrag: () => { },
+  handleDrop: () => { },
+  setNewTasks: () => { },
+  toggleAdding: () => { }
 }
 
 export default TasksList;

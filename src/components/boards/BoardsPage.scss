@@ -1,38 +1,42 @@
 @import '../../scss/vars';
 
-.boards-form {
-  display: flex;
-  justify-content: space-between;
-  min-width: 400px;
-  background: white;
-  text-align: center;
-  padding: 15px;
-  border-radius: 10px;
-  border: 2px solid transparent;
-  transition: all .2s ease; 
+.boards {
+  height: 100%;
 
-  * {
-    font-size: 20px;
-    border: none;
-  }
-
-  & > input[type="text"] {
-    flex-grow: 1;
+  &-form {
+    display: flex;
+    justify-content: space-between;
+    min-width: 400px;
+    background: white;
     text-align: center;
-  }
-
-  & > input[type="text"]:focus {
-    outline: none;
-  }
-
-  & > input[type="submit"] {
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-
-  &:focus-within {
-    border-color: black;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    transition: all .2s ease; 
+  
+    * {
+      font-size: 20px;
+      border: none;
+    }
+  
+    & > input[type="text"] {
+      flex-grow: 1;
+      text-align: center;
+    }
+  
+    & > input[type="text"]:focus {
+      outline: none;
+    }
+  
+    & > input[type="submit"] {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  
+    &:focus-within {
+      border-color: black;
+    }
   }
 }

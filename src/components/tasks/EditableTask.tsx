@@ -19,4 +19,10 @@ const EditableTask: React.FC <EditableTaskProps> = ({
     {title}
   </li>
 
+EditableTask.defaultProps = {
+  title: '',
+  onStartEdit: () => {},
+  onEndEdit: () => {}
+}
+
 export default withEdditable(EditableTask);

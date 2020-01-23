@@ -105,26 +105,36 @@ const TodosList: React.FC<TodosListProps> = ({
   }
 
   return (
-    (!todosArray.length) ?
-      <p className="todos-empty">No todos</p> :
-      <ul className="todos-list">
-        {
-          todosArray.map(todo =>
-            <Todo
-              key={todo.id}
-              {...todo}
-              handleDrop={
-                (taskId, targetTaskId?) =>
-                  onDropTask(taskId, todo.id, targetTaskId)
-              }
-              onEditTodoTitle={(title) => editTodoTitle(title, todo.id)}
-              setNewTasks={(newTasks) => setNewTasks(todo.id, newTasks)}
-              onRemoveTodo={() => removeTodo(todo.id)}
-            />
-          )
-        }
-      </ul>
+    <section className="todos-section">
+      {
+        (!todosArray.length) ?
+          <p className="todos-empty empty">No todos</p> :
+          <ul className="todos-list">
+            {
+              todosArray.map(todo =>
+                <Todo
+                  key={todo.id}
+                  {...todo}
+                  handleDrop={
+                    (taskId, targetTaskId?) =>
+                      onDropTask(taskId, todo.id, targetTaskId)
+                  }
+                  onEditTodoTitle={(title) => editTodoTitle(title, todo.id)}
+                  setNewTasks={(newTasks) => setNewTasks(todo.id, newTasks)}
+                  onRemoveTodo={() => removeTodo(todo.id)}
+                />
+              )
+            }
+          </ul>
+      }
+    </section>
   )
+}
+
+TodosList.defaultProps = {
+  currentTodos: {},
+  setNewTodos: () => { },
+  dragFromTodo: ''
 }
 
 export default TodosList;

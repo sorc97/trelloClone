@@ -7,9 +7,10 @@
   flex-direction: column;
 
   &-boardCaption {
-    color: $main-text-color;
+    color: #f9fcff;
     // background-color: #edf5fc;
-    background-color: #d0dfec;
+    // background-color: #d0dfec;
+    background-color: #009688;
     padding: 10px;
     margin-right: 20px;
     border-radius: 5px;
@@ -17,12 +18,14 @@
     transition: background-color 0.2s ease;
 
     &:hover {
+      color: $main-text-color;
       // background-color: #edf5fc94;
       background-color: rgb(237, 237, 237);
     }
 
     &.editing {
       background-color: #fff;
+      color: $main-text-color;
     }
   }
 
@@ -30,7 +33,10 @@
     display: flex;
     // justify-content: flex-start;
     justify-content: space-between;
-    background-color: #edf5fc;
+    // background-color: #edf5fc;
+    // background-color: #336e87;
+    // background-color: #4F6D7A;
+    background-color: #3a535e;
     align-items: center;
     flex-wrap: wrap;
     // height: 10%;
@@ -81,11 +87,5 @@
         background-color: $prime-color;
       }
     }
-  }
-
-  &-section {
-    flex-grow: 1;
-    overflow-x: auto;
-    overflow-y: hidden;
   }
 }

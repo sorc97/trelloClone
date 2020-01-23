@@ -7,15 +7,16 @@ interface DroppableProps {
   handleDrop?: (taskId: string) => void
 }
 
-const Droppable: React.FC<DroppableProps> = ({id, children, className, handleDrop }) => {
+const Droppable: React.FC<DroppableProps> = ({
+  id, children, className, handleDrop
+}) => {
 
   const drop = (e: React.DragEvent) => {
     e.preventDefault();
-    const droppableElem = e.target as HTMLElement;
-    const data: string = e.dataTransfer.getData('id');
+    const data: string = e.dataTransfer.getData('id');  // Get data transferred by drag
 
     handleDrop(data);
-    document
+    document  // Reset all elements with under drag class
       .querySelectorAll(`.${className}`)
       .forEach(item => item.classList.remove('underDrag'));
   }
@@ -23,20 +24,22 @@ const Droppable: React.FC<DroppableProps> = ({id, children, className, handleDro
   const dragEnter = (e: React.DragEvent) => {
     e.preventDefault();
     const target = e.currentTarget as HTMLElement;
-    target.classList.add('underDrag');
+    // Apply styles to droppable element
+    target.classList.add('underDrag'); 
   }
 
   const dragLeave = (e: React.DragEvent) => {
     const target = e.currentTarget as HTMLElement;
+    // Remove styles from droppable element
     target.classList.remove('underDrag');
   }
 
-  const allowDrop = (e: React.DragEvent) => { 
+  const allowDrop = (e: React.DragEvent) => {
     e.preventDefault();
   }
 
-  return(
-    <div 
+  return (
+    <div
       id={id}
       onDragEnter={dragEnter}
       onDragLeave={dragLeave}
@@ -47,7 +50,11 @@ const Droppable: React.FC<DroppableProps> = ({id, children, className, handleDro
       {children}
     </div>
   )
+}
 
+Droppable.defaultProps = {
+  id: "",
+  handleDrop: () => { }
 }
 
 export default Droppable;

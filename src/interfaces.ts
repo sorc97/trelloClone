@@ -19,8 +19,6 @@ export interface ITodoList {
 }
 
 export interface ITask extends InitialFields {
-  isDone: boolean,
-  todoId?: string  //Remove?
 }
 
 export interface IAction {

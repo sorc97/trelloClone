@@ -11,10 +11,10 @@ interface TodoProps {
   title: string,
   id: string,
   tasks: Array<ITask>,
+  onRemoveTodo: () => void,
   handleDrop?: (taskId: string, targetTaskId?: string) => void,
   onEditTodoTitle?: (title: string) => void,
-  setNewTasks?: (newTasks: ITask[]) => void,
-  onRemoveTodo: () => void
+  setNewTasks?: (newTasks: ITask[]) => void
 }
 
 type TodoState = boolean;
@@ -29,10 +29,10 @@ const Todo: React.FC<TodoProps> = ({
   onRemoveTodo
 }) => {
 
-  const { setDragFromTodo } = useContext(TodosPageContext);
-  const [isAdding, setAdding] = useState<TodoState>(false);
+  const { setDragFromTodo } = useContext(TodosPageContext); 
+  const [isAdding, setAdding] = useState<TodoState>(false);  // Adding of new word state
 
-  const toggleAdding = (): void => {
+  const toggleAdding = (): void => {  // Change adding state
     setAdding(!isAdding);
   }
 
@@ -43,9 +43,9 @@ const Todo: React.FC<TodoProps> = ({
           handleEditingEnd={onEditTodoTitle}
           className='tasks-caption'
           title={title}
-          captionRole='h2'
+          captionRole='secondary'
         />
-        <button 
+        <button
           onClick={onRemoveTodo}
           className="tasks-removeTodo">
           &times;
@@ -75,6 +75,16 @@ const Todo: React.FC<TodoProps> = ({
       }
     </li>
   )
+}
+
+Todo.defaultProps = {
+  title: "unknown",
+  id: "",
+  tasks: [],
+  onRemoveTodo: () => { },
+  handleDrop: () => { },
+  onEditTodoTitle: () => { },
+  setNewTasks: () => { }
 }
 
 export default Todo;
