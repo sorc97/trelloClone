@@ -5,17 +5,11 @@
     flex-grow: 1;
     overflow-x: auto;
     overflow-y: hidden;
+    margin-bottom: 5px;
   }
 
   &-empty {
-    /* display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    margin: 0; */
     font-size: 30px;
-    color: lightslategray;
   }
 
   &-list {

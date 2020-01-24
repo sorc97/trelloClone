@@ -25,7 +25,8 @@ const Droppable: React.FC<DroppableProps> = ({
     e.preventDefault();
     const target = e.currentTarget as HTMLElement;
     // Apply styles to droppable element
-    target.classList.add('underDrag'); 
+    target.classList.add('underDrag');
+    console.log(id);
   }
 
   const dragLeave = (e: React.DragEvent) => {

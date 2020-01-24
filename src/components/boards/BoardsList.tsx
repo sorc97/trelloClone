@@ -17,7 +17,11 @@ const BoardsList: React.FC<BoardsListProps> = ({
       {
         boards.map((board) =>
           <li className="boards-item" key={board.id}>
-            <Link to={`/board/${board.id}`}>{board.title}</Link>
+            <Link to={`/board/${board.id}`}>
+              <span className='boards-name'>
+                {board.title}
+              </span>
+            </Link>
             <button
               className="boards-remove"
               onClick={() => onRemove(board.id)}

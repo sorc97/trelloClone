@@ -30,8 +30,9 @@ const BoardsPage: React.FC = () => {
       <AddForm
         handleAdding={addNewBoard}
         placeholder="New board name"
-        button="+"
-        className="boards-form"
+        buttonText="+"
+        // className="boards-form"
+        className="add-form"
       />
       <BoardsList 
         boards={boards} 

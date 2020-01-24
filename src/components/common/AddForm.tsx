@@ -1,14 +1,15 @@
 import React, { useState, useRef } from 'react';
+import './AddForm.scss';
 
 interface AddFormProps {
   handleAdding: (title: string) => void,
   placeholder: string,
-  button?: string,
+  buttonText?: string,
   className?: string
 }
 
 const AddForm: React.FC<AddFormProps> = ({
-  handleAdding, placeholder, button, className
+  handleAdding, placeholder, className, buttonText
 }) => {
   // Ref creation
   let textRef: React.RefObject<HTMLInputElement> = useRef(null);
@@ -37,7 +38,7 @@ const AddForm: React.FC<AddFormProps> = ({
         onChange={handleChange}
         required
       />
-      {button && <input type='submit' value={button} />}
+      <input type='submit' value={buttonText} />
     </form>
   )
 }
@@ -45,7 +46,8 @@ const AddForm: React.FC<AddFormProps> = ({
 AddForm.defaultProps = {
   handleAdding: () => {},
   placeholder: "Input field",
-  className: "add-form"
+  className: "add-form",
+  buttonText: "Add"
 }
 
 export default AddForm;

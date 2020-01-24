@@ -15,7 +15,6 @@
     justify-content: center;
     gap: 20px;
     list-style: none;
-    // min-height: 70vh;
   }
 
   &-item {
@@ -33,16 +32,20 @@
       padding: 7%;
       height: 100%;
       width: 100%;
-      color: $boards-text-color;
+      color: $secondary-text-color;
       font-size: 25px;
       text-decoration: none;
+      overflow-y: auto;
     }
 
     &:hover {
       transform: scale(1.01);
-      // box-shadow: 0px 5px 8px #272d2dab;
       box-shadow: 0 5px 8px rgba(44, 55, 55, 0.33);
     }
+  }
+
+  &-name {
+    margin: auto;
   }
 
   &-remove {
@@ -55,12 +58,17 @@
     cursor: pointer;
 
     &:hover {
-      color: #e04f4f;
+      color: $remove-color;
+    }
+
+    &:focus {
+      outline: none;
+      color: $remove-color;
     }
   }
 
   &-empty {
     font-size: 30px;
-    color: lightslategray;
+    color: $empty-color;
   }
 }

@@ -1,0 +1,40 @@
+@import '../../scss/vars';
+
+.todos {
+  &-boardCaption {
+    color: #f9fcff;
+    background-color: $secondary-color;
+    padding: 10px;
+    margin-right: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      color: $main-text-color;
+      background-color: rgb(237, 237, 237);
+    }
+  }
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #3a535e;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px $main-padding;
+  }
+
+  & .add-form {
+    flex-grow: 1;
+    margin-right: 20px;
+
+    & > *{
+      font-size: 16px;
+    }
+
+    & > [type='text'] {
+      padding: 10px;
+    }
+  }
+}

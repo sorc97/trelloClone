@@ -18,7 +18,6 @@ const getInitialState = (): BoardsState => {
     []
 }
 const initialState: BoardsState = getInitialState();
-// const initialState: BoardsState = [];
 
 // Provider Component 
 export const BoardsProvider: React.FC<IBoardProviderProps> = ({ children }) => {

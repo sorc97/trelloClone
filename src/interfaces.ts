@@ -21,23 +21,6 @@ export interface ITodoList {
 export interface ITask extends InitialFields {
 }
 
-export interface IAction {
-  type: string,
-  payload: IPayloadData
-}
-
-export interface IPayloadData {
-  title?: string,
-  todoId?: string,
-  boardId?: string,
-  activeTodos?: Array<ITodo>,
-  todosList?: Array<ITodo>
-}
-
-export type AppState = {
-  boardsList: Array<IBoard>,
-}
-
 export type BoardsState = Array<IBoard>;
 
 export interface MatchParams {

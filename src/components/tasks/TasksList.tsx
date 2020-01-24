@@ -18,13 +18,13 @@ const TasksList: React.FC<TasksListProps> = ({
   tasks, handleDrag, handleDrop, setNewTasks, isAdding, toggleAdding
 }) => {
   // Access to list DOM element
-  const list: React.RefObject<HTMLUListElement> = useRef(null);  
+  const list: React.RefObject<HTMLUListElement> = useRef(null);
 
-  const scrollDown = (): void => { 
+  const scrollDown = (): void => {
     let elem = list.current;
     // When element got scroll, sroll down
-    if (elem.scrollHeight - elem.clientHeight) {  
-      elem.scrollTo(0, elem.scrollHeight);
+    if (elem.scrollHeight - elem.clientHeight) {
+      elem.scrollTop = elem.scrollHeight;
     }
   }
 

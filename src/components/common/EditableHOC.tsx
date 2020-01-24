@@ -20,10 +20,10 @@ export const withEdditable = <P extends object>(PassedComponent: React.Component
       target.classList.add('editing');
       target.focus();
       // Submit by enter handler 
-      target.addEventListener('keypress', (e) => {
+      target.addEventListener('keydown', (e) => {
         if (e.code === "Enter") {
-          target.blur();
           e.preventDefault();  // Prevent break line by enter
+          target.blur();
         }
       })
     }

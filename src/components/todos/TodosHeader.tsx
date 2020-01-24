@@ -2,6 +2,7 @@ import React from 'react';
 import AddForm from '../common/AddForm';
 import Basket from '../common/Basket';
 import EditableCaption from '../common/EditableCaption';
+import './TodosHeader.scss';
 
 interface TodosHeader {
   currentBoardTitle: string,
@@ -25,8 +26,7 @@ const TodosHeader: React.FC<TodosHeader> = ({
       <AddForm
         placeholder="Add new Todo"
         handleAdding={addNewTodo}
-        className="todos-form"
-        button="add"
+        className="add-form"
       />
       <Basket
         onRemove={removeTask}

@@ -10,7 +10,7 @@ interface DraggableProps {
 
 let draggableELem: HTMLElement = null;  // current draggable element
 
-const Draggable: React.FC <DraggableProps> = ({ 
+const Draggable: React.FC<DraggableProps> = ({
   id, children, className, handleDrag, handleDrop
 }) => {
 
@@ -20,18 +20,16 @@ const Draggable: React.FC <DraggableProps> = ({
 
     handleDrag();  // External drag function
 
-    setTimeout(() => {  // Set styles to draggable element
-      draggableELem.classList.add('dragged');
-    } , 0)
+    draggableELem.classList.add('dragged');  // Set styles to draggable element
   }
 
   const dragEnd = (e: React.DragEvent) => {
     draggableELem.classList.remove('dragged');  // Remove styles from draggable element
     draggableELem = null;  // Reset current draggable element
-    
+
     document  // Reset all elements with under drag class
       .querySelectorAll(`.${className}`)
-      .forEach(item => item.classList.remove('underDrag'));  
+      .forEach(item => item.classList.remove('underDrag'));
   }
 
   const dragEnter = (e: React.DragEvent) => {
@@ -40,7 +38,7 @@ const Draggable: React.FC <DraggableProps> = ({
 
     let target = e.currentTarget as HTMLElement;
 
-    if(target === draggableELem) return;
+    if (target === draggableELem) return;
     // If draggable element over another element, change it's style
     target.classList.add('underDrag');
   }
@@ -49,14 +47,14 @@ const Draggable: React.FC <DraggableProps> = ({
     e.preventDefault();
     e.stopPropagation();
     // Do nothing if drag over current draggable element
-    if(e.currentTarget === draggableELem) return;  
+    if (e.currentTarget === draggableELem) return;
   }
 
   const dragLeave = (e: React.DragEvent) => {
     e.stopPropagation();
     let target = e.currentTarget as HTMLElement;
 
-    if(target === draggableELem) return;
+    if (target === draggableELem) return;
 
     target.classList.remove('underDrag');  // Remove styles from leaving element
   }
@@ -68,19 +66,19 @@ const Draggable: React.FC <DraggableProps> = ({
     const target = e.currentTarget as HTMLElement;
     const data: string = e.dataTransfer.getData('id'); // Get data transferred by drag
 
-    if(target === draggableELem) return;  // If drop on the draggable element, do nothing
+    if (target === draggableELem) return;  // If drop on the draggable element, do nothing
 
-    handleDrop( data, target.id );  // Change state with new value
+    handleDrop(data, target.id);  // Change state with new value
     document  // Reset all elements with under drag class
       .querySelectorAll('.draggable-wrapper')
       .forEach(item => item.classList.remove('underDrag'));
   }
-  
-  return(
-    <div 
-      id={id} 
-      draggable="true" 
-      onDragStart={drag} 
+
+  return (
+    <div
+      id={id}
+      draggable="true"
+      onDragStart={drag}
       onDragEnd={dragEnd}
       onDragOver={dragOver}
       onDragEnter={dragEnter}
@@ -95,8 +93,8 @@ const Draggable: React.FC <DraggableProps> = ({
 
 Draggable.defaultProps = {
   id: "",
-  handleDrag: () => {},
-  handleDrop: () => {}
+  handleDrag: () => { },
+  handleDrop: () => { }
 }
 
 export default Draggable;

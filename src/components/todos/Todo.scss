@@ -1,14 +1,11 @@
 @import '../../scss/vars';
 
 .todos-item {
-  // width: 250px;
   width: 270px;
-  // display: inline-block;
   display: inline-flex;
   flex-direction: column;
   margin-right: 20px;
   height: 100%;
-  // background: floralwhite;
   background-color: $boards-color;
   vertical-align: top;
   overflow-y: hidden;
@@ -16,12 +13,11 @@
 }
 
 .droppable-wrapper {
-  // height: 85%;
   flex: 1 1 auto;
   overflow-y: auto;
-  // &.underDrag {
-  //   // background: #7fffd4a1;
-  //   background: antiquewhite;
-  //   // background: seashell;
-  // }
+  transition: all .5s ease;
+
+  &.underDrag > .tasks-list{
+    background-color: $underDrag-todo;
+  }
 }
