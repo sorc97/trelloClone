@@ -21,7 +21,7 @@
     position: relative;
     background-color: $boards-color;
     border-radius: 3%;
-    transition: all .3s ease;
+    transition: box-shadow .2s linear;
     height: 200px;
 
     a {
@@ -39,8 +39,7 @@
     }
 
     &:hover {
-      transform: scale(1.01);
-      box-shadow: 0 5px 8px rgba(44, 55, 55, 0.33);
+      box-shadow: 0 5px 13px rgba(58, 83, 94, 0.67);
     }
   }
 

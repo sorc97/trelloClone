@@ -60,13 +60,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: `assets/js/${filename('js')}`,
-    publicPath: '/'
+    publicPath: isDev ? '/' : '/trelloClone/'
   },
   devtool: (isDev) ? 'cheap-module-eval-source-map' : "",
   devServer: {
     port: 3000,
     host: "0.0.0.0",
-    contentBase: './dist'
+    contentBase: './dist',
+    historyApiFallback: true
   },
   optimization: {
     splitChunks: {
@@ -95,7 +96,6 @@ module.exports = {
       {
         test: /\.scss$/i,
         use: [
-          'style-loader',
           MiniCssExtractPlugin.loader,
           'css-loader',
           {
@@ -112,7 +112,6 @@ module.exports = {
       {
         test: /\.css?/,
         use: [
-          'style-loader',
           MiniCssExtractPlugin.loader,
           'css-loader',
           {

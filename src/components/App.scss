@@ -1,10 +1,11 @@
 @import '../scss/vars';
 
-*{
+* {
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
   position: relative;
   height: 100%;
   margin: 0px;
@@ -22,7 +23,11 @@ ul {
   margin: 0px;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
   margin: 0px;
 }
 
@@ -54,13 +59,15 @@ h1, h2, h3, h4, h5 {
 
 // Scroll styling
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 10px;
   background-color: rgba(0, 0, 0, 0.09);
   border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb{
-  background-color: #6a7a889c;
+::-webkit-scrollbar-thumb {
+  background-color: $scroll-bg;
   border-radius: 10px;
-};
+}
+
+;

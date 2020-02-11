@@ -13,16 +13,7 @@
   cursor: default;
 
   &.underDrag {
-    background-color: #ca3b47c5;
-    opacity: 0.7;
-  }
-
-  &-icon-wrapper {
-    width: 1em;
-    margin-right: 10px;
-  }
-
-  &-icon {
-    fill: #fff;
+    background-color: #ca3b47;
+    opacity: 0.5;
   }
 }

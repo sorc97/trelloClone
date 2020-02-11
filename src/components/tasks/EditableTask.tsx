@@ -8,10 +8,10 @@ interface EditableTaskProps {
   onEndEdit?: (e: React.FocusEvent) => void,
 }
 
-const EditableTask: React.FC <EditableTaskProps> = ({
+const EditableTask: React.FC<EditableTaskProps> = ({
   title, onStartEdit, onEndEdit, className
-}) => 
-  <li 
+}) =>
+  <li
     onDoubleClick={onStartEdit}
     onBlur={onEndEdit}
     className={className}
@@ -21,8 +21,8 @@ const EditableTask: React.FC <EditableTaskProps> = ({
 
 EditableTask.defaultProps = {
   title: '',
-  onStartEdit: () => {},
-  onEndEdit: () => {}
+  onStartEdit: () => { },
+  onEndEdit: () => { }
 }
 
 export default withEdditable(EditableTask);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, createContext, ReactNode } from 'react'
 import { BoardsState } from '../../interfaces'
+import initialData from '../../data/initialData'
 
 // IBoardProvider Types 
 interface IBoardProviderProps {
@@ -15,7 +16,7 @@ export const BoardsContext = createContext<IBoardContextData | null>(null);
 const getInitialState = (): BoardsState => {
   return (localStorage['trello-store']) ?
     JSON.parse(localStorage['trello-store']) :
-    []
+    [initialData]
 }
 const initialState: BoardsState = getInitialState();
 
@@ -25,10 +26,6 @@ export const BoardsProvider: React.FC<IBoardProviderProps> = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem('trello-store', JSON.stringify(boards));
-  }, [boards]);
-
-  useEffect(() => {
-    console.log(boards);
   }, [boards]);
 
   return (

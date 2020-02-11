@@ -13,14 +13,20 @@
       text-align: center;
       min-width: 350px;
       background-color: #f7fbff;
+      border-color: transparent;
 
       &:focus {
-        border-color: $secondary-color-highlighted;
+        border-color: $prime-dark-color;
       }
     }
 
     & > [type='submit'] {
       width: 50px;
+      background-color: $prime-dark-color;
+
+      &:focus, &:hover {
+        background-color: $secondary-color;
+      }
     }
   }
 }
